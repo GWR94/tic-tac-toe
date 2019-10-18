@@ -1,9 +1,9 @@
 # Tic Tac Toe Game with Minimax Algorithm
 Play a game of Tic-Tac-Toe against a friend or against one of the three different AI difficulties.
 
-Easy: AI will play randomly.
-Normal: AI has a 50% chance of playing the best move or random move
-Hard: AI cannot be beaten.
+- Easy: AI will play randomly.
+- Normal: AI has a 50% chance of playing the best move or random move
+- Hard: AI cannot be beaten.
 
 ## Installation
 Clone the repository, go to the repository's directory in the terminal, and run npm
