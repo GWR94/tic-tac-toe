@@ -1,0 +1,172 @@
+.scores__container {
+  margin: 0 auto;
+  width: 460px;
+  display: flex;
+  justify-content: space-between;
+
+  @media (max-width: $s-breakpoint) {
+    width: 70vw;
+    margin: 0 15vw;
+  }
+
+  @media (max-width: $xs-breakpoint) {
+    width: 90vw;
+    margin: 0 5vw;
+  }
+}
+
+#current-turn {
+  font-size: 20px;
+  margin: 40px auto 20px;
+  text-align: center;
+  width: 200px;
+
+  @media (max-width: $xs-breakpoint) {
+    margin: 20px auto 10px;
+  }
+}
+
+.scores__player--container {
+  display: inline-flex;
+  font-size: 20px;
+  justify-content: space-evenly;
+
+  @media (max-width: $s-breakpoint) {
+    font-size: 18px;
+  }
+}
+
+%score {
+  font-size: 30px;
+  line-height: 28px;
+  text-align: center;
+  visibility: hidden;
+  width: 40px;
+
+  @media (max-width: $xs-breakpoint) {
+    font-size: 28px;
+    line-height: 26px;
+    width: 26px;
+  }
+}
+
+#p1score {
+  @extend %score;
+  color: $p1-green;
+}
+
+#p2score {
+  @extend %score;
+  color: $p2-red;
+}
+
+%ttt__score-animation {
+  -webkit-animation-duration: 1s;
+  -webkit-animation-play-state: running;
+  animation-duration: 1s;
+  animation-play-state: running;
+}
+
+.ttt__score-animation--p1 {
+  @extend %ttt__score-animation;
+  -webkit-animation-name: bigToSmallP1;
+  animation-name: bigToSmallP1;
+}
+
+.ttt__score-animation--p2 {
+  @extend %ttt__score-animation;
+  -webkit-animation-name: bigToSmallP2;
+  animation-name: bigToSmallP2;
+}
+
+@-webkit-keyframes bigToSmallP1 {
+  0% {
+    font-size: 30px;
+  }
+
+  25% {
+    font-size: 45px;
+  }
+
+  50% {
+    color: $p1-green;
+    font-size: 60px;
+  }
+
+  75% {
+    font-size: 45px;
+  }
+
+  100% {
+    font-size: 30px;
+  }
+}
+
+@keyframes bigToSmallP1 {
+  0% {
+    font-size: 30px;
+  }
+
+  25% {
+    font-size: 45px;
+  }
+
+  50% {
+    color: $p1-green;
+    font-size: 60px;
+  }
+
+  75% {
+    font-size: 45px;
+  }
+
+  100% {
+    font-size: 30px;
+  }
+}
+
+@-webkit-keyframes bigToSmallP2 {
+  0% {
+    font-size: 30px;
+  }
+
+  25% {
+    font-size: 45px;
+  }
+
+  50% {
+    color: $p2-red;
+    font-size: 60px;
+  }
+
+  75% {
+    font-size: 45px;
+  }
+
+  100% {
+    font-size: 30px;
+  }
+}
+
+@keyframes bigToSmallP2 {
+  0% {
+    font-size: 30px;
+  }
+
+  25% {
+    font-size: 45px;
+  }
+
+  50% {
+    color: $p2-red;
+    font-size: 60px;
+  }
+
+  75% {
+    font-size: 45px;
+  }
+
+  100% {
+    font-size: 30px;
+  }
+}

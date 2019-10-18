@@ -1,0 +1,68 @@
+.tile__container {
+  background: none;
+  border: 2px solid $black;
+  display: block;
+  float: left;
+  height: 33.333%;
+  padding: 10px;
+  width: 33.333%;
+
+  &:first-of-type {
+    border-left-color: transparent;
+    border-top-color: transparent;
+  }
+
+  &:nth-of-type(2) {
+    border-top-color: transparent;
+  }
+
+  &:nth-of-type(3) {
+    border-right-color: transparent;
+    border-top-color: transparent;
+  }
+
+  &:nth-of-type(4),
+  &:nth-of-type(7) {
+    border-left-color: transparent;
+  }
+
+  &:nth-of-type(6),
+  &:nth-of-type(9) {
+    border-right-color: transparent;
+  }
+
+  &:nth-of-type(7),
+  &:nth-of-type(8),
+  &:nth-of-type(9) {
+    border-bottom-color: transparent;
+  }
+}
+
+.tile__text,
+%tile__text {
+  cursor: pointer;
+  font-size: 100px;
+  height: 100%;
+  line-height: 100px;
+  text-align: center;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+
+  @media (max-width: $s-breakpoint) {
+    font-size: 80px;
+    line-height: 70px;
+  }
+}
+
+.tile__text--p1 {
+  @extend %tile__text;
+  color: $p1-green;
+}
+
+.tile__text--p2 {
+  @extend %tile__text;
+  color: $p2-red !important;
+}

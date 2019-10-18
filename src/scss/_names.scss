@@ -1,0 +1,194 @@
+.names__container {
+  margin: 20vh auto;
+  height: 50vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-family: "Oswald", sans-serif;
+  width: 440px;
+
+  @media (max-width: $s-breakpoint) {
+    width: 80vw;
+    margin: 25vh 10vw 0;
+  }
+}
+
+.names__back-button {
+  cursor: pointer;
+  font-size: 30px;
+  height: 30px;
+  margin: 10px auto;
+  text-align: center;
+  width: 30px;
+
+  &:hover {
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+  }
+}
+
+.names__player-input {
+  border: 1px solid $black !important;
+  font-size: 15px !important;
+  display: inline-block !important;
+  width: 200px !important;
+  background: none !important;
+
+  &:focus {
+    -webkit-box-shadow: 0 0 10px $player-button !important;
+    box-shadow: 0 0 10px $player-button !important;
+  }
+}
+
+.names__setup-names--container {
+  margin: 0 auto 20px;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
+  justify-content: space-evenly;
+}
+
+.names__player-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  margin: 16px auto 8px;
+
+  @media (max-width: $s-breakpoint) {
+    -webkit-box-pack: space-evenly;
+    -ms-flex-pack: space-evenly;
+    justify-content: space-evenly;
+  }
+}
+
+.names__player-label-text {
+  font-size: 18px;
+  display: inline-block;
+  width: 80px;
+}
+
+%names__counter {
+  cursor: pointer;
+  margin: 0 auto;
+  width: 50px;
+  padding-bottom: 4px;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    margin-bottom: -2px;
+  }
+}
+
+.names__counter--player1 {
+  @extend %names__counter;
+
+  &:hover {
+    border-bottom: 2px solid $p1-green;
+  }
+}
+
+.names__counter--player2 {
+  @extend %names__counter;
+
+  &:hover {
+    border-bottom: 2px solid $p2-red;
+  }
+}
+
+.names__counter-container {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  font-size: 16px;
+  text-align: center;
+  width: 50%;
+  margin-bottom: 5px;
+}
+
+.names__counter-container--player {
+  margin: 0 auto -20px;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+}
+
+.names__counter-container--player2 {
+  margin: 0 auto;
+  width: 300px;
+}
+
+.names__player-text-container {
+  margin: 10px auto;
+}
+
+.names__player-text {
+  text-align: center;
+  padding: 0 40px;
+
+  @media (max-width: $s-breakpoint) {
+    padding: 0;
+    font-size: 18px;
+  }
+}
+
+.names__button-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 20px auto;
+  width: 220px;
+}
+
+.names__choose-difficulty {
+  text-align: center;
+
+  @media (max-width: $s-breakpoint) {
+    font-size: 15px;
+  }
+}
+
+.names__difficulty-button {
+  width: 70px;
+}
+
+.names__play-button {
+  margin: 0 auto;
+  width: 78px;
+}

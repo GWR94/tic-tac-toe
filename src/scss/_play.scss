@@ -1,0 +1,65 @@
+.tic-tac-toe__container {
+  background-size: cover;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: -2;
+  font-family: "Oswald", sans-serif !important;
+}
+
+.play__container {
+  margin: 15vh auto 0;
+  height: 70vh;
+  -webkit-display: -webkit-box;
+  -ms-display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
+  justify-content: space-evenly;
+}
+
+.play__grid {
+  height: 400px;
+  margin: 5px auto 0;
+  width: 400px;
+
+  @media (max-width: $s-breakpoint) {
+    height: 300px;
+    width: 300px;
+    margin: auto;
+  }
+}
+
+.play__back-button {
+  cursor: pointer;
+  font-size: 30px;
+  height: 30px;
+  text-align: center;
+  width: 30px;
+  position: absolute;
+  left: 50%;
+  margin-left: -15px;
+
+  &:hover {
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(-360deg);
+  }
+}
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(-360deg);
+    transform: rotate(-360deg);
+  }
+}
