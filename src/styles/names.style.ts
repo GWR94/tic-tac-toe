@@ -22,8 +22,11 @@ export default makeStyles({
     fontSize: "1.6rem !important",
     fontFamily: "Oswald,  sans-serif !important",
     textAlign: "center",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.only("sm")]: {
       fontSize: "1.4rem !important",
+    },
+    [theme.breakpoints.only("xs")]: {
+      fontSize: "1.2rem !important",
     },
   },
   subtitle: {
@@ -31,6 +34,12 @@ export default makeStyles({
     fontFamily: "Oswald,  sans-serif",
     textAlign: "center",
     marginBottom: "20px !important",
+    [theme.breakpoints.only("sm")]: {
+      fontSize: "1.2rem !important",
+    },
+    [theme.breakpoints.only("xs")]: {
+      fontSize: "1rem !important",
+    },
   },
   input: {
     width: "70%",

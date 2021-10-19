@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  createTheme,
+  TextField,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { Player } from "../interfaces/components.i";
 import { AppState } from "../store/store";
 import * as actions from "../actions/player.action";
@@ -17,6 +23,9 @@ const ChooseNames: React.FC = (): JSX.Element => {
   );
 
   const dispatch = useDispatch();
+
+  const theme = createTheme();
+  const desktop = useMediaQuery(theme.breakpoints.up("md"));
 
   const useStyles = styles;
   const classes = useStyles();
@@ -95,7 +104,7 @@ const ChooseNames: React.FC = (): JSX.Element => {
       </Typography>
       <Typography className={classes.subtitle}>
         You can input your {noPlayers === 1 ? "name" : "names"} and change your
-        counter by clicking on the &quot;X&quot; or &quot;O&quot; below.
+        counter by clicking on the X or O below.
       </Typography>
       <TextField
         value={player1.name}
@@ -103,6 +112,7 @@ const ChooseNames: React.FC = (): JSX.Element => {
         onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
           onPlayerNameChange(e, 1)
         }
+        size={desktop ? "medium" : "small"}
         label="Player 1"
         variant="outlined"
         fullWidth
@@ -124,7 +134,7 @@ const ChooseNames: React.FC = (): JSX.Element => {
 
       {noPlayers === 1 && (
         <div>
-          <Typography className={classes.title}>
+          <Typography className={classes.subtitle} style={{ marginTop: 12 }}>
             What difficulty would you like to play against?
           </Typography>
           <div className={classes.buttonContainer}>
@@ -133,6 +143,7 @@ const ChooseNames: React.FC = (): JSX.Element => {
               variant={difficulty === 1 ? "outlined" : "text"}
               color="inherit"
               onClick={(): void => onChangeDifficulty(1)}
+              size={desktop ? "medium" : "small"}
             >
               Easy
             </Button>
@@ -141,6 +152,7 @@ const ChooseNames: React.FC = (): JSX.Element => {
               variant={difficulty === 2 ? "outlined" : "text"}
               color="inherit"
               onClick={(): void => onChangeDifficulty(2)}
+              size={desktop ? "medium" : "small"}
             >
               Normal
             </Button>
@@ -149,6 +161,7 @@ const ChooseNames: React.FC = (): JSX.Element => {
               variant={difficulty === 3 ? "outlined" : "text"}
               color="inherit"
               onClick={(): void => onChangeDifficulty(3)}
+              size={desktop ? "medium" : "small"}
             >
               Unbeatable
             </Button>
