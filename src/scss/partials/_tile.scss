@@ -1,6 +1,6 @@
 .tile__container {
   background: none;
-  border: 2px solid $black;
+  border: 2px solid black;
   display: block;
   float: left;
   height: 33.333%;
@@ -46,6 +46,7 @@
   line-height: 100px;
   text-align: center;
   width: 100%;
+  font-family: "Sriracha", sans-serif !important;
 
   &:focus {
     outline: none;
@@ -59,10 +60,10 @@
 
 .tile__text--p1 {
   @extend %tile__text;
-  color: $p1-green;
+  color: #0f9128;
 }
 
 .tile__text--p2 {
   @extend %tile__text;
-  color: $p2-red !important;
+  color: #d6463c !important;
 }

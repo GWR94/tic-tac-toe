@@ -12,7 +12,11 @@ const defaultBoardState: BoardState = {
 
 type BoardActionsTypes = AddMoveAction | ResetBoardAction;
 
-export default (state = defaultBoardState, action: BoardActionsTypes): BoardState => {
+// eslint-disable-next-line import/no-anonymous-default-export
+export default (
+  state = defaultBoardState,
+  action: BoardActionsTypes
+): BoardState => {
   switch (action.type) {
     case ADD_MOVE:
       return {

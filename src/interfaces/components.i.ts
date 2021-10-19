@@ -18,17 +18,17 @@ export interface BoardState {
 }
 
 export interface PlayProps {
-  player?: PlayerState;
-  board?: BoardState;
-  reset?: () => void;
-  addMove?: (board) => void;
-  changePlayer?: () => void;
-  playerOneScore?: () => void;
-  playerTwoScore?: () => void;
-  updateCurrentTurn?: (turn) => void;
+  player: PlayerState;
+  board: BoardState;
+  reset: () => void;
+  addMove: (board: any) => void;
+  changePlayer: () => void;
+  playerOneScore: () => void;
+  playerTwoScore: () => void;
+  updateCurrentTurn: (turn: any) => void;
   resetBoard?: () => void;
   resetScore?: () => void;
-  setCurrentPlayer?: (player) => void;
+  setCurrentPlayer: (player: number) => void;
 }
 
 export interface PlayState {
@@ -37,7 +37,7 @@ export interface PlayState {
 }
 
 export interface TileProps {
-  takeTurn: (id, counter) => boolean;
+  takeTurn: (id: any, counter: "X" | "O") => boolean;
   takeAITurn: () => void;
   id: string;
   disableClicks: boolean;
@@ -47,12 +47,12 @@ export interface TileProps {
 
 export interface Player {
   name: string;
-  counter: string;
+  counter: "X" | "O";
   score?: number;
 }
 
 export interface GameWon {
-  index: string;
+  index: number;
   player: string;
 }
 

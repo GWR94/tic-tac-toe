@@ -1,41 +1,49 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Button } from "reactstrap";
-import { SetNumPlayersAction, SET_NUM_PLAYERS } from "../interfaces/actions.i";
+import { Button, Typography } from "@mui/material";
+import { SetNumPlayersAction } from "../interfaces/actions.i";
+import styles from "../styles/opponents.style";
+import * as actions from "../actions/player.action";
 
-const ChooseOpponents: React.SFC = (): JSX.Element => {
+const ChooseOpponents: React.FC = (): JSX.Element => {
+  const useStyles = styles;
+  const classes = useStyles();
   const dispatch = useDispatch();
-  const setNumPlayers = (numPlayers: number): SetNumPlayersAction =>
-    dispatch({ type: SET_NUM_PLAYERS, numPlayers });
 
   return (
-    <div className="opponents__container animated fadeIn">
-      <h1 className="opponents__title">Welcome to Tic-Tac-Toe!</h1>
-      <h3 className="opponents__subtitle">
+    <div className={`${classes.container} animate__animated animate__fadeIn`}>
+      <Typography className={classes.title} gutterBottom>
+        Welcome to Tic-Tac-Toe!
+      </Typography>
+      <Typography className={classes.subtitle} gutterBottom>
         Would you like to try your luck against the computer,
         <br />
         or play against a friend?
-      </h3>
-      <h3 className="opponents__subtitle-two">
+      </Typography>
+      <Typography className={classes.subtitleTwo} gutterBottom>
         There are 3 different difficulties to choose <br />
         when playing a one player game!
-      </h3>
-      <div className="opponents__button-container">
+      </Typography>
+      <div className={classes.buttonContainer}>
         <Button
-          className="opponents__button"
-          outline
-          color="secondary"
-          size="lg"
-          onClick={(): SetNumPlayersAction => setNumPlayers(1)}
+          className={classes.button}
+          color="primary"
+          onClick={(): SetNumPlayersAction =>
+            dispatch(actions.setNumPlayers(1))
+          }
+          variant="outlined"
+          style={{ margin: "0 3px" }}
         >
           1 Player
         </Button>
         <Button
-          className="opponents__button"
-          outline
+          className={classes.button}
           color="secondary"
-          size="lg"
-          onClick={(): SetNumPlayersAction => setNumPlayers(2)}
+          variant="outlined"
+          onClick={(): SetNumPlayersAction =>
+            dispatch(actions.setNumPlayers(2))
+          }
+          style={{ margin: "0 3px" }}
         >
           2 Player
         </Button>

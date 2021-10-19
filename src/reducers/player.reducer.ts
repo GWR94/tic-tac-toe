@@ -29,7 +29,11 @@ const defaultPlayerState: PlayerState = {
   currentTurn: undefined,
 };
 
-export default (state = defaultPlayerState, action: PlayerActionTypes): PlayerState => {
+// eslint-disable-next-line import/no-anonymous-default-export
+export default (
+  state = defaultPlayerState,
+  action: PlayerActionTypes
+): PlayerState => {
   switch (action.type) {
     case CHANGE_PLAYER_AFTER_MOVE:
       return {

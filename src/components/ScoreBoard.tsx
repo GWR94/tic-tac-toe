@@ -14,7 +14,9 @@ const ScoreBoard: React.SFC<ScoreBoardProps> = ({
   player2ScoreRef,
   enableTiles,
 }): JSX.Element => {
-  const { player1, player2 } = useSelector(({ player }: AppState): PlayerState => player);
+  const { player1, player2 } = useSelector(
+    ({ player }: AppState): PlayerState => player
+  );
 
   const dispatch = useDispatch();
   const resetScore = (): ResetScoreAction => dispatch({ type: RESET_SCORE });
@@ -40,7 +42,7 @@ const ScoreBoard: React.SFC<ScoreBoardProps> = ({
 
   return (
     <div className="scores__container">
-      <div className="scores__player--container animated slideInLeft">
+      <div className="scores__player--container animate__animated animate__slideInLeft">
         {player1.name || "Player 1"}:{" "}
         <div id="p1score" ref={player1ScoreRef}>
           {player1.score}
@@ -52,7 +54,7 @@ const ScoreBoard: React.SFC<ScoreBoardProps> = ({
         tabIndex={0}
         onClick={onResetClick}
       />
-      <div className="scores__player--container animated slideInRight">
+      <div className="scores__player--container animate__animated animate__slideInRight">
         {player2.name}:{" "}
         <div id="p2score" ref={player2ScoreRef}>
           {player2.score}

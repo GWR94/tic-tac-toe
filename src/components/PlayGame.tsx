@@ -6,7 +6,6 @@ import {
   PlayState,
   GameWon,
   Move,
-  TicTacToeState,
 } from "../interfaces/components.i";
 import ActionTypes, {
   ResetAction,
@@ -25,12 +24,7 @@ import * as boardActions from "../actions/board.action";
 import Tile from "./Tile";
 import ScoreBoard from "./ScoreBoard";
 import { tilesData, winCombos } from "../data/tiles.data";
-
-/*
-  TODO
-  [ ] Investigate why sometimes not all animations trigger
-  [ ] Change addMove to be changing the array in state rather than  always sending a new one
- */
+import { AppState } from "../store/store";
 
 class PlayGame extends React.Component<PlayProps, PlayState> {
   public readonly state: PlayState = {
@@ -39,24 +33,27 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
   };
 
   private currentTurnRef = React.createRef<HTMLDivElement>();
-
   private player1ScoreRef = React.createRef<HTMLDivElement>();
-
   private player2ScoreRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount(): void {
     setTimeout((): void => {
       const p1score = this.player1ScoreRef.current;
-      p1score.style.visibility = "visible";
-      p1score.className = "animated fadeIn";
       const p2score = this.player2ScoreRef.current;
-      p2score.style.visibility = "visible";
-      p2score.className = "animated fadeIn";
+      if (p1score) {
+        p1score.style.visibility = "visible";
+        p1score.className = "animate__animated animate__fadeIn";
+      }
+      if (p2score) {
+        p2score.style.visibility = "visible";
+        p2score.className = "animate__animated animate__fadeIn";
+      }
     }, 1000);
   }
 
-  public componentWillUpdate(nextProps, nextState): void {
-    this.currentTurnRef.current.className = "";
+  public componentWillUpdate(nextProps: PlayProps, nextState: PlayState): void {
+    const currentTurn = this.currentTurnRef.current;
+    if (currentTurn) currentTurn.className = "";
     if (nextState.gameFinished) {
       nextState.gameFinished = false;
       setTimeout((): void => {
@@ -77,10 +74,12 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
 
   public componentDidUpdate(): void {
     const currentTurn = this.currentTurnRef.current;
-    currentTurn.classList.add("animated", "fadeIn");
-    setTimeout((): void => {
-      currentTurn.className = "";
-    }, 300);
+    if (currentTurn) {
+      currentTurn.classList.add("animate__animated", "animate__fadeIn");
+      setTimeout((): void => {
+        currentTurn.className = "";
+      }, 300);
+    }
   }
 
   private takeAITurn = (): void => {
@@ -90,8 +89,9 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
     this.setState({ disableClicks: false });
   };
 
-  private takeTurn = (squareId: string, playerCounter: string): boolean => {
-    const { player, addMove, board, updateCurrentTurn, changePlayer } = this.props;
+  private takeTurn = (squareId: string, playerCounter: "X" | "O"): boolean => {
+    const { player, addMove, board, updateCurrentTurn, changePlayer } =
+      this.props;
     const { currentPlayer, player1, player2, noPlayers } = player;
     const { tiles } = board;
 
@@ -100,12 +100,13 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
     addMove(newBoard);
 
     const tile = document.getElementById(squareId);
-    tile.innerText = playerCounter;
-    tile.className =
-      currentPlayer === 1
-        ? "tile__text--p1 animated fadeIn"
-        : "tile__text--p2 animated fadeIn";
-
+    if (tile) {
+      tile.innerText = playerCounter;
+      tile.className =
+        currentPlayer === 1
+          ? "tile__text--p1 animate__animated animate__fadeIn"
+          : "tile__text--p2 animate__animated animate__fadeIn";
+    }
     const gameOver = this.checkResult(playerCounter);
     if (!gameOver) {
       if (currentPlayer === 1) {
@@ -121,18 +122,23 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
     return false;
   };
 
-  public checkResult = (counter, minMax?: boolean): GameWon | boolean => {
+  public checkResult = (
+    counter: "X" | "O",
+    minMax?: boolean
+  ): GameWon | boolean | null => {
     const { updateCurrentTurn, changePlayer } = this.props;
     const { board } = this.props;
     const { tiles } = board;
 
-    const plays = tiles.reduce(
-      (play, currentCounter, index): number[] =>
+    const plays: number[] | number = tiles.reduce(
+      // @ts-ignore
+      (play, currentCounter: "X" | "O", index: number): number[] =>
         currentCounter === counter ? play.concat(index) : play,
-      [],
+      []
     );
-    let gameWon = null;
+    let gameWon: GameWon | null = null;
     for (const [index, win] of winCombos.entries()) {
+      // @ts-ignore
       if (win.every((elem: number): boolean => plays.indexOf(elem) > -1)) {
         gameWon = {
           index,
@@ -170,14 +176,17 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
     } = this.props;
 
     for (const index of winCombos[gameWon.index]) {
-      document.getElementById(index).style.backgroundColor =
-        gameWon.player === player1.counter ? "green" : "red";
-      document.getElementById(index).className = "tile__text animated tada";
+      const tile = document.getElementById(index.toString());
+      if (tile) {
+        tile.style.backgroundColor =
+          gameWon.player === player1.counter ? "green" : "red";
+        tile.className = "tile__text animate__animated animate__tada";
+      }
     }
 
     gameWon.player === player1.counter
-      ? this.player1ScoreRef.current.classList.add("scores__animation--p1")
-      : this.player2ScoreRef.current.classList.add("scores__animation--p2");
+      ? this.player1ScoreRef.current?.classList.add("scores__animation--p1")
+      : this.player2ScoreRef.current?.classList.add("scores__animation--p2");
 
     gameWon.player === player1.counter ? playerOneScore() : playerTwoScore();
 
@@ -186,7 +195,9 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
       gameFinished: true,
     });
 
-    this.currentTurnRef.current.className = "";
+    if (this.currentTurnRef.current) {
+      this.currentTurnRef.current.className = "";
+    }
   };
 
   private emptyTiles = (): number[] => {
@@ -269,7 +280,7 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
     this.player2ScoreRef.current.className = "";
   };
 
-  private minimax = (counter): Move => {
+  private minimax = (counter: "X" | "O"): Move => {
     const {
       player: { player1, player2 },
       board: { tiles },
@@ -296,6 +307,7 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
     for (let i = 0; i < availSpots.length; i++) {
       const move: Move = {};
       move.index = tiles[availSpots[i]];
+      // @ts-ignore
       tiles[availSpots[i]] = counter;
       if (counter === player2.counter) {
         const result = this.minimax(player1.counter);
@@ -347,8 +359,9 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
           {currentTurn}
         </div>
         <div className="play__grid">
-          {tilesData.map(
-            (tile): JSX.Element => (
+          {tilesData.map((tile): JSX.Element => {
+            console.log(tile);
+            return (
               <Tile
                 takeTurn={this.takeTurn}
                 key={tile}
@@ -356,36 +369,41 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
                 currentTurn={this.currentTurnRef}
                 takeAITurn={this.takeAITurn}
                 disableClicks={disableClicks}
-                disableTileClicks={(): void => this.setState({ disableClicks: true })}
+                disableTileClicks={(): void =>
+                  this.setState({ disableClicks: true })
+                }
               />
-            ),
-          )}
+            );
+          })}
         </div>
       </div>
     );
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<ActionTypes>): PlayDispatchProps => ({
+const mapDispatchToProps = (
+  dispatch: Dispatch<ActionTypes>
+): PlayDispatchProps => ({
   reset: (): ResetAction => dispatch(playerActions.reset()),
-  changePlayer: (): ChangePlayerAction => dispatch(playerActions.changePlayer()),
+  changePlayer: (): ChangePlayerAction =>
+    dispatch(playerActions.changePlayer()),
   updateCurrentTurn: (turn: string): UpdateCurrentTurnAction =>
     dispatch(playerActions.updateCurrentTurn(turn)),
-  playerOneScore: (): PlayerOneScoreAction => dispatch(playerActions.playerOneScore()),
-  playerTwoScore: (): PlayerTwoScoreAction => dispatch(playerActions.playerTwoScore()),
+  playerOneScore: (): PlayerOneScoreAction =>
+    dispatch(playerActions.playerOneScore()),
+  playerTwoScore: (): PlayerTwoScoreAction =>
+    dispatch(playerActions.playerTwoScore()),
   resetScore: (): ResetScoreAction => dispatch(playerActions.resetScore()),
   setCurrentPlayer: (player: number): SetCurrentPlayerAction =>
     dispatch(playerActions.setCurrentPlayer(player)),
   resetBoard: (): ResetBoardAction => dispatch(boardActions.resetBoard()),
-  addMove: (board): AddMoveAction => dispatch(boardActions.addMove(board)),
+  addMove: (board: number[]): AddMoveAction =>
+    dispatch(boardActions.addMove(board)),
 });
 
-const mapStateToProps = ({ player, board }): TicTacToeState => ({
+const mapStateToProps = ({ player, board }: AppState): AppState => ({
   player,
   board,
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PlayGame);
+export default connect(mapStateToProps, mapDispatchToProps)(PlayGame);

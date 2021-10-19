@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Input } from "reactstrap";
+import { Button, TextField, Typography } from "@mui/material";
 import { Player } from "../interfaces/components.i";
 import { AppState } from "../store/store";
 import {
@@ -9,19 +9,28 @@ import {
   SetupPlayersAction,
   SETUP_PLAYERS,
 } from "../interfaces/actions.i";
+import styles from "../styles/names.style";
 
-const ChooseNames: React.SFC = (): JSX.Element => {
-  const [player1, setPlayer1] = useState({ name: "", counter: "X" });
-  const [player2, setPlayer2] = useState({ name: "", counter: "O" });
+const ChooseNames: React.FC = (): JSX.Element => {
+  const [player1, setPlayer1] = useState<Player>({ name: "", counter: "X" });
+  const [player2, setPlayer2] = useState<Player>({ name: "", counter: "O" });
   const [difficulty, setDifficulty] = useState(2);
-  const noPlayers = useSelector(({ player }: AppState): number => player.noPlayers);
+
+  const noPlayers = useSelector(
+    ({ player }: AppState): number => player.noPlayers
+  );
+
   const dispatch = useDispatch();
 
   const reset = (): ResetAction => dispatch({ type: RESET });
+
+  const useStyles = styles;
+  const classes = useStyles();
+
   const setupPlayers = (
     player1: Player,
     player2: Player,
-    difficulty: number,
+    difficulty: number
   ): SetupPlayersAction =>
     dispatch({ type: SETUP_PLAYERS, player1, player2, difficulty });
 
@@ -29,14 +38,16 @@ const ChooseNames: React.SFC = (): JSX.Element => {
     if (noPlayers === 1) {
       setPlayer2({ ...player2, name: "Normal AI" });
     }
-  });
+  }, [noPlayers, player2]);
 
   const onPlayerNameChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    player: number,
+    player: number
   ): void => {
     const name = e.target.value;
-    player === 1 ? setPlayer1({ ...player1, name }) : setPlayer2({ ...player2, name });
+    player === 1
+      ? setPlayer1({ ...player1, name })
+      : setPlayer2({ ...player2, name });
   };
 
   const onChangeCounter = (): void => {
@@ -63,6 +74,7 @@ const ChooseNames: React.SFC = (): JSX.Element => {
         name = "Unbeatable AI";
         break;
       default:
+        name = "Normal AI";
         break;
     }
 
@@ -81,120 +93,113 @@ const ChooseNames: React.SFC = (): JSX.Element => {
   };
 
   return (
-    <div className="names__container animated fadeIn">
+    <div className={`${classes.container} animate__animated animate__fadeIn`}>
       <i
-        className="fa fa-undo names__back-button"
+        className={`fa fa-undo ${classes.backButton}`}
         onClick={reset}
         role="button"
         tabIndex={0}
-        onKeyDown={(e): void => {
-          if (e.key === "Escape") {
-            reset();
-          }
-        }}
       />
-      <div className="names__player-text-container">
-        <h2 className="names__player-text">
-          {noPlayers === 1
-            ? 'Please select a difficulty and click "Play Game" to begin, and change your name if you wish to.'
-            : 'Click "Play Game" to begin, or change your names and counters if you wish to.'}
-        </h2>
-      </div>
-      <div className="names__setup-names--container">
-        <div className="names__player-container">
-          <p className="names__player-label-text">Player 1:</p>
-          <Input
-            className="names__player-input"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-              onPlayerNameChange(e, 1)
-            }
-            value={player1.name}
-          />
-        </div>
+      <Typography className={classes.title}>
+        {noPlayers === 1
+          ? 'Please select a difficulty and click "Play Game" to begin.'
+          : 'Click "Play Game" to begin.'}
+      </Typography>
+      <Typography className={classes.subtitle}>
+        You can input your {noPlayers === 1 ? "name" : "names"} and change your
+        counter by clicking on the &quot;X&quot; or &quot;O&quot; below.
+      </Typography>
+      <TextField
+        value={player1.name}
+        className={classes.input}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+          onPlayerNameChange(e, 1)
+        }
+        label="Player 1"
+        variant="outlined"
+        fullWidth
+      />
 
-        {noPlayers === 2 && (
-          <div className="names__player-container">
-            <p className="names__player-label-text">Player 2:</p>
-            <Input
-              className="names__player-input"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                onPlayerNameChange(e, 2)
-              }
-              value={player2.name}
-            />
-          </div>
-        )}
-      </div>
+      {noPlayers === 2 && (
+        <TextField
+          value={player2.name}
+          className={classes.input}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+            onPlayerNameChange(e, 2)
+          }
+          label="Player 2"
+          variant="outlined"
+          fullWidth
+          style={{ margin: "20px 0" }}
+        />
+      )}
 
       {noPlayers === 1 && (
         <div>
-          <h3 className="names__choose-difficulty">
+          <Typography className={classes.title}>
             What difficulty would you like to play against?
-          </h3>
-          <div className="names__button-container">
+          </Typography>
+          <div className={classes.buttonContainer}>
             <Button
-              active={difficulty === 1}
-              className="names__difficulty-button"
-              color="success"
+              className={classes.easyButton}
+              variant={difficulty === 1 ? "outlined" : "text"}
+              color="inherit"
               onClick={(): void => onChangeDifficulty(1)}
-              outline
-              size="lg"
             >
               Easy
             </Button>
             <Button
-              active={difficulty === 2}
-              className="names__difficulty-button"
-              color="warning"
+              className={classes.normalButton}
+              variant={difficulty === 2 ? "outlined" : "text"}
+              color="inherit"
               onClick={(): void => onChangeDifficulty(2)}
-              outline
-              size="lg"
             >
               Normal
             </Button>
             <Button
-              active={difficulty === 3}
-              className="names__difficulty-button"
-              color="danger"
+              className={classes.hardButton}
+              variant={difficulty === 3 ? "outlined" : "text"}
+              color="inherit"
               onClick={(): void => onChangeDifficulty(3)}
-              outline
-              size="lg"
             >
               Unbeatable
             </Button>
           </div>
         </div>
       )}
-      <div className="names__counter-container--player">
-        <div
-          onClick={onChangeCounter}
-          role="button"
-          tabIndex={0}
-          className="names__counter-container"
-        >
-          <p>{player1.name.length > 0 ? player1.name : "Player 1"}:</p>
-          <div className="names__counter--player1">{player1.counter}</div>
+      <div className={classes.countersContainer}>
+        <div className={classes.playerContainer} role="button" tabIndex={0}>
+          <Typography className={classes.counterText}>
+            {player1.name.length > 0 ? player1.name : "Player 1"}:{" "}
+          </Typography>
+          <span
+            className={classes.counter}
+            onClick={onChangeCounter}
+            role="button"
+            tabIndex={0}
+            style={{ color: "#0f9128" }}
+          >
+            {player1.counter}
+          </span>
         </div>
-        <div
-          className="names__counter-container"
-          onClick={onChangeCounter}
-          role="button"
-          tabIndex={0}
-        >
-          <p>{player2.name.length > 0 ? player2.name : "Player 2"}:</p>
-          <div className="names__counter--player2">{player2.counter}</div>
+        <div className={classes.playerContainer}>
+          <Typography className={classes.counterText}>
+            {player2.name.length > 0 ? player2.name : "Player 2"}:{" "}
+          </Typography>
+          <span
+            className={classes.counter}
+            onClick={onChangeCounter}
+            tabIndex={0}
+            role="button"
+            style={{ color: "#d6463c" }}
+          >
+            {player2.counter}
+          </span>
         </div>
       </div>
-      <div className="names__button-container">
-        <Button
-          className="names__play-button"
-          size="lg"
-          color="primary"
-          onClick={onSubmit}
-        >
-          Play Game!
-        </Button>
-      </div>
+      <Button color="primary" variant="contained" onClick={onSubmit}>
+        Play Game!
+      </Button>
     </div>
   );
 };

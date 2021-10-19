@@ -10,9 +10,9 @@ const Tile: React.FC<TileProps> = ({
   takeAITurn,
   disableTileClicks,
   currentTurn,
-}): JSX.Element => {
+}: TileProps): JSX.Element => {
   const { noPlayers, player1, player2, currentPlayer } = useSelector(
-    ({ player }: AppState): PlayerState => player,
+    ({ player }: AppState): PlayerState => player
   );
   const tiles = useSelector(({ board }: AppState): number[] => board.tiles);
 
@@ -21,9 +21,9 @@ const Tile: React.FC<TileProps> = ({
   };
 
   const onTileClick = (): void => {
-    currentTurn.current.className = "";
+    if (currentTurn.current) currentTurn.current.className = "";
 
-    if (typeof tiles[id] === "number") {
+    if (typeof tiles[parseInt(id)] === "number") {
       if (noPlayers === 1) {
         const aiTurn: boolean = takeTurn(id, player1.counter);
         setDisabled();

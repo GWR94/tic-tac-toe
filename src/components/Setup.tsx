@@ -7,31 +7,29 @@ import { PlayerState } from "../interfaces/components.i";
 import background from "../images/background.jpg";
 import { AppState } from "../store/store";
 
-const Setup: React.SFC = (): JSX.Element => {
+const Setup: React.FC = (): JSX.Element => {
   const { noPlayers, readyToPlay } = useSelector(
-    ({ player }: AppState): PlayerState => player,
+    ({ player }: AppState): PlayerState => player
   );
 
   return (
-    <>
-      <div
-        className="tic-tac-toe__container"
-        style={{
-          background: `url(${background}) no-repeat fixed center`,
-          backgroundSize: "cover",
-        }}
-      >
-        {!readyToPlay ? (
-          noPlayers === undefined ? (
-            <ChooseOpponents />
-          ) : (
-            <ChooseNames />
-          )
+    <div
+      className="tic-tac-toe__container"
+      style={{
+        background: `url(${background}) no-repeat fixed center`,
+        backgroundSize: "cover",
+      }}
+    >
+      {!readyToPlay ? (
+        noPlayers === undefined ? (
+          <ChooseOpponents />
         ) : (
-          <PlayGame />
-        )}
-      </div>
-    </>
+          <ChooseNames />
+        )
+      ) : (
+        <PlayGame />
+      )}
+    </div>
   );
 };
 

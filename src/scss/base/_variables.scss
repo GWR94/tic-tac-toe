@@ -1,13 +1,8 @@
+// Colors
 $dark-grey: #333;
-$grey: #666;
-$blue: #1c88bf;
-$white: #fff;
-$black: #000;
-$gray: #ccc;
-$dark-blue: #364051;
 $off-white: #ebe9e9;
-
-//Tic-Tac-Toe Colors
+$gray-watch: #131319;
+$off-gray: #afb2bd;
 $p1-green: #008000;
 $p2-red: #f00;
 $player-button: rgb(189, 146, 78);
@@ -30,3 +25,11 @@ $l-breakpoint: 1280px;
 $md-breakpoint: 980px;
 $s-breakpoint: 740px;
 $xs-breakpoint: 480px;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 !important;
+}

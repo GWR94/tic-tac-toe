@@ -1,7 +1,6 @@
-@import "./base/settings";
-@import "./base/base";
-@import "./names";
-@import "./opponents";
-@import "./play";
-@import "./score-board";
-@import "./tile";
+@import "./base/variables";
+@import "./partials/names";
+@import "./partials/opponents";
+@import "./partials/play";
+@import "./partials/score-board";
+@import "./partials/tile";

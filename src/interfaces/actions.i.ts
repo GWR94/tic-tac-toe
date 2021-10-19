@@ -14,7 +14,7 @@ export interface ResetBoardAction {
 }
 
 export interface OpponentDispatchProps {
-  setNumPlayers: (num) => SetNumPlayersAction;
+  setNumPlayers: (num: number) => SetNumPlayersAction;
 }
 
 // * Player Actions * //
@@ -72,20 +72,24 @@ export interface SetCurrentPlayerAction {
 
 export interface NameDispatchProps {
   reset: () => ResetAction;
-  setupPlayers: (player1, player2, difficulty) => SetupPlayersAction;
+  setupPlayers: (
+    player1: Player,
+    player2: Player,
+    difficulty: number
+  ) => SetupPlayersAction;
   noPlayers?: number;
 }
 
 export interface PlayDispatchProps {
   reset: () => ResetAction;
   changePlayer: () => ChangePlayerAction;
-  updateCurrentTurn: (turn) => UpdateCurrentTurnAction;
+  updateCurrentTurn: (turn: any) => UpdateCurrentTurnAction;
   playerOneScore: () => PlayerOneScoreAction;
   playerTwoScore: () => PlayerTwoScoreAction;
   resetScore: () => ResetScoreAction;
-  setCurrentPlayer: (player) => SetCurrentPlayerAction;
+  setCurrentPlayer: (player: number) => SetCurrentPlayerAction;
   resetBoard: () => ResetBoardAction;
-  addMove: (board) => AddMoveAction;
+  addMove: (board: number[]) => AddMoveAction;
 }
 
 declare type ActionTypes =
@@ -101,4 +105,4 @@ declare type ActionTypes =
   | AddMoveAction
   | ResetBoardAction;
 
-export { ActionTypes as default };
+export default ActionTypes;
