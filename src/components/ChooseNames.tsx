@@ -25,7 +25,8 @@ const ChooseNames: React.FC = (): JSX.Element => {
     if (noPlayers === 1) {
       setPlayer2({ ...player2, name: "Normal AI" });
     }
-  }, [noPlayers, player2]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onPlayerNameChange = (
     e: React.ChangeEvent<HTMLInputElement>,
