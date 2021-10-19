@@ -63,3 +63,4 @@ The game is currently in a working state where users can both play against frien
 - Testing needs to be refactored and uploaded
 - Look into creating two player games over the internet via socket.io
 - Save player stats to their own profile (win/loss/draw etc)
+- Refactor and remove scss or css-in-js as they're currently overlapping
