@@ -19,7 +19,6 @@ export interface OpponentDispatchProps {
 
 // * Player Actions * //
 export const CHANGE_PLAYER_AFTER_MOVE = "CHANGE_PLAYER_AFTER_MOVE";
-export const RESET = "RESET";
 export const SET_NUM_PLAYERS = "SET_NUM_PLAYERS";
 export const SETUP_PLAYERS = "SETUP_PLAYERS";
 export const PLAYER_ONE_SCORE = "PLAYER_ONE_SCORE";
@@ -27,13 +26,14 @@ export const PLAYER_TWO_SCORE = "PLAYER_TWO_SCORE";
 export const UPDATE_CURRENT_TURN = "UPDATE_CURRENT_TURN";
 export const RESET_SCORE = "RESET_SCORE";
 export const SET_CURRENT_PLAYER = "SET_CURRENT_PLAYER";
+export const RESET_GAME = "RESET_GAME";
 
 export interface ChangePlayerAction {
   type: typeof CHANGE_PLAYER_AFTER_MOVE;
 }
 
-export interface ResetAction {
-  type: typeof RESET;
+export interface ResetGameAction {
+  type: typeof RESET_GAME;
 }
 
 export interface SetNumPlayersAction {
@@ -71,7 +71,7 @@ export interface SetCurrentPlayerAction {
 }
 
 export interface NameDispatchProps {
-  reset: () => ResetAction;
+  reset: () => ResetGameAction;
   setupPlayers: (
     player1: Player,
     player2: Player,
@@ -81,7 +81,7 @@ export interface NameDispatchProps {
 }
 
 export interface PlayDispatchProps {
-  reset: () => ResetAction;
+  reset: () => ResetGameAction;
   changePlayer: () => ChangePlayerAction;
   updateCurrentTurn: (turn: any) => UpdateCurrentTurnAction;
   playerOneScore: () => PlayerOneScoreAction;
@@ -94,7 +94,7 @@ export interface PlayDispatchProps {
 
 declare type ActionTypes =
   | ChangePlayerAction
-  | ResetAction
+  | ResetGameAction
   | SetNumPlayersAction
   | SetupPlayersAction
   | PlayerOneScoreAction

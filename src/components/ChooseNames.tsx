@@ -3,13 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button, TextField, Typography } from "@mui/material";
 import { Player } from "../interfaces/components.i";
 import { AppState } from "../store/store";
-import {
-  ResetAction,
-  RESET,
-  SetupPlayersAction,
-  SETUP_PLAYERS,
-} from "../interfaces/actions.i";
+import * as actions from "../actions/player.action";
 import styles from "../styles/names.style";
+import { ResetGameAction } from "../interfaces/actions.i";
 
 const ChooseNames: React.FC = (): JSX.Element => {
   const [player1, setPlayer1] = useState<Player>({ name: "", counter: "X" });
@@ -22,17 +18,8 @@ const ChooseNames: React.FC = (): JSX.Element => {
 
   const dispatch = useDispatch();
 
-  const reset = (): ResetAction => dispatch({ type: RESET });
-
   const useStyles = styles;
   const classes = useStyles();
-
-  const setupPlayers = (
-    player1: Player,
-    player2: Player,
-    difficulty: number
-  ): SetupPlayersAction =>
-    dispatch({ type: SETUP_PLAYERS, player1, player2, difficulty });
 
   useEffect((): void => {
     if (noPlayers === 1) {
@@ -89,14 +76,14 @@ const ChooseNames: React.FC = (): JSX.Element => {
     if (player1.name.length === 0) player1.name = "Player 1";
     if (player2.name.length === 0) player2.name = "Player 2";
 
-    setupPlayers(player1, player2, difficulty);
+    dispatch(actions.setupPlayers(player1, player2, difficulty));
   };
 
   return (
     <div className={`${classes.container} animate__animated animate__fadeIn`}>
       <i
         className={`fa fa-undo ${classes.backButton}`}
-        onClick={reset}
+        onClick={(): ResetGameAction => dispatch(actions.reset())}
         role="button"
         tabIndex={0}
       />

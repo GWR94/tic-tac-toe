@@ -1,8 +1,8 @@
 import {
   CHANGE_PLAYER_AFTER_MOVE,
   ChangePlayerAction,
-  RESET,
-  ResetAction,
+  RESET_GAME,
+  ResetGameAction,
   SETUP_PLAYERS,
   SetupPlayersAction,
   SET_NUM_PLAYERS,
@@ -24,8 +24,8 @@ export const changePlayer = (): ChangePlayerAction => ({
   type: CHANGE_PLAYER_AFTER_MOVE,
 });
 
-export const reset = (): ResetAction => ({
-  type: RESET,
+export const reset = (): ResetGameAction => ({
+  type: RESET_GAME,
 });
 
 export const setNumPlayers = (numPlayers: number): SetNumPlayersAction => ({
@@ -41,7 +41,7 @@ export const setCurrentPlayer = (player: number): SetCurrentPlayerAction => ({
 export const setupPlayers = (
   player1: Player,
   player2: Player,
-  difficulty: number,
+  difficulty: number
 ): SetupPlayersAction => ({
   type: SETUP_PLAYERS,
   player1,

@@ -2,12 +2,9 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ScoreBoardProps, PlayerState } from "../interfaces/components.i";
 import { AppState } from "../store/store";
-import {
-  ResetScoreAction,
-  RESET_SCORE,
-  ResetBoardAction,
-  RESET_BOARD,
-} from "../interfaces/actions.i";
+import * as boardActions from "../actions/board.action";
+import * as playerActions from "../actions/player.action";
+import { Tooltip } from "@mui/material";
 
 const ScoreBoard: React.SFC<ScoreBoardProps> = ({
   player1ScoreRef,
@@ -19,8 +16,6 @@ const ScoreBoard: React.SFC<ScoreBoardProps> = ({
   );
 
   const dispatch = useDispatch();
-  const resetScore = (): ResetScoreAction => dispatch({ type: RESET_SCORE });
-  const resetBoard = (): ResetBoardAction => dispatch({ type: RESET_BOARD });
 
   const onResetClick = (): void => {
     /**
@@ -29,8 +24,8 @@ const ScoreBoard: React.SFC<ScoreBoardProps> = ({
      */
     setTimeout((): void => {
       enableTiles();
-      resetScore();
-      resetBoard();
+      dispatch(boardActions.resetBoard());
+      dispatch(playerActions.resetScore());
 
       for (let i = 0; i < 9; i++) {
         const index = i.toString();
@@ -48,12 +43,22 @@ const ScoreBoard: React.SFC<ScoreBoardProps> = ({
           {player1.score}
         </div>
       </div>
-      <i
-        className="fa fa-undo play__back-button"
-        role="button"
-        tabIndex={0}
-        onClick={onResetClick}
-      />
+      <Tooltip arrow placement="top" title="Reset Game">
+        <i
+          className="fas fa-arrow-left play__back-button animate__animated animate__fadeIn animate__delay-2s"
+          role="button"
+          tabIndex={0}
+          onClick={() => dispatch(playerActions.reset())}
+        />
+      </Tooltip>
+      <Tooltip arrow placement="top" title="Restart Current Game">
+        <i
+          className="fa fa-undo play__reset-button animate__animated animate__fadeIn animate__delay-2s"
+          role="button"
+          tabIndex={0}
+          onClick={onResetClick}
+        />
+      </Tooltip>
       <div className="scores__player--container animate__animated animate__slideInRight">
         {player2.name}:{" "}
         <div id="p2score" ref={player2ScoreRef}>

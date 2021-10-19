@@ -8,7 +8,7 @@ import {
   Move,
 } from "../interfaces/components.i";
 import ActionTypes, {
-  ResetAction,
+  ResetGameAction,
   ChangePlayerAction,
   UpdateCurrentTurnAction,
   PlayerOneScoreAction,
@@ -360,7 +360,6 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
         </div>
         <div className="play__grid">
           {tilesData.map((tile): JSX.Element => {
-            console.log(tile);
             return (
               <Tile
                 takeTurn={this.takeTurn}
@@ -384,7 +383,7 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
 const mapDispatchToProps = (
   dispatch: Dispatch<ActionTypes>
 ): PlayDispatchProps => ({
-  reset: (): ResetAction => dispatch(playerActions.reset()),
+  reset: (): ResetGameAction => dispatch(playerActions.reset()),
   changePlayer: (): ChangePlayerAction =>
     dispatch(playerActions.changePlayer()),
   updateCurrentTurn: (turn: string): UpdateCurrentTurnAction =>

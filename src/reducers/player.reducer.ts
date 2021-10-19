@@ -1,6 +1,6 @@
 import PlayerActionTypes, {
   CHANGE_PLAYER_AFTER_MOVE,
-  RESET,
+  RESET_GAME,
   SETUP_PLAYERS,
   SET_NUM_PLAYERS,
   PLAYER_ONE_SCORE,
@@ -40,8 +40,6 @@ export default (
         ...state,
         currentPlayer: state.currentPlayer === 1 ? 2 : 1,
       };
-    case RESET:
-      return defaultPlayerState;
     case SET_NUM_PLAYERS:
       return {
         ...state,
@@ -82,6 +80,8 @@ export default (
         currentPlayer: 1,
         currentTurn: `${state.player2.name} wins!`,
       };
+    case RESET_GAME:
+      return defaultPlayerState;
     case RESET_SCORE:
       return {
         ...state,

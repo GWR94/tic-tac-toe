@@ -41,14 +41,19 @@
   height: 30px;
   text-align: center;
   width: 30px;
-  position: absolute;
-  left: 50%;
-  margin-left: -15px;
 
   &:hover {
     -webkit-animation: spin 1s linear infinite;
     animation: spin 1s linear infinite;
   }
+}
+
+.play__reset-button {
+  cursor: pointer;
+  font-size: 30px;
+  height: 30px;
+  text-align: center;
+  width: 30px;
 }
 
 @-webkit-keyframes spin {
