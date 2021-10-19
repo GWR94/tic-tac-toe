@@ -41,11 +41,6 @@
   height: 30px;
   text-align: center;
   width: 30px;
-
-  &:hover {
-    -webkit-animation: spin 1s linear infinite;
-    animation: spin 1s linear infinite;
-  }
 }
 
 .play__reset-button {
@@ -54,17 +49,4 @@
   height: 30px;
   text-align: center;
   width: 30px;
-}
-
-@-webkit-keyframes spin {
-  100% {
-    -webkit-transform: rotate(-360deg);
-  }
-}
-
-@keyframes spin {
-  100% {
-    -webkit-transform: rotate(-360deg);
-    transform: rotate(-360deg);
-  }
 }
