@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, TextField, Typography } from "@mui/material";
 import { OpenRoom } from "../../interfaces/online.i";
-import styles from "../../styles/online-lobby.style";
 
 interface OnlineLobbyJoinProps {
   playerName: string;
@@ -26,14 +25,12 @@ const OnlineLobbyJoin: React.FC<OnlineLobbyJoinProps> = ({
   onRefreshRooms,
   onBack,
 }): JSX.Element => {
-  const classes = styles();
-
   return (
     <>
-      <Typography className={classes.title}>Join a Room</Typography>
+      <Typography className="lobby__title">Join a Room</Typography>
       <TextField
         value={playerName}
-        className={classes.input}
+        className="lobby__input"
         onChange={(e): void => onPlayerNameChange(e.target.value)}
         label="Your name"
         variant="outlined"
@@ -41,9 +38,9 @@ const OnlineLobbyJoin: React.FC<OnlineLobbyJoinProps> = ({
         fullWidth
       />
 
-      <div className={classes.openRoomsSection}>
-        <div className={classes.openRoomsHeader}>
-          <Typography className={classes.openRoomsTitle}>
+      <div className="lobby__open-rooms-section">
+        <div className="lobby__open-rooms-header">
+          <Typography className="lobby__open-rooms-title">
             Open rooms
           </Typography>
           <Button size="small" variant="text" onClick={onRefreshRooms}>
@@ -52,20 +49,20 @@ const OnlineLobbyJoin: React.FC<OnlineLobbyJoinProps> = ({
         </div>
 
         {openRooms.length === 0 ? (
-          <Typography className={classes.openRoomsEmpty}>
+          <Typography className="lobby__open-rooms-empty">
             No open rooms right now. Enter a code below or create one.
           </Typography>
         ) : (
-          <div className={classes.openRoomsList}>
+          <div className="lobby__open-rooms-list">
             {openRooms.map((room) => (
               <button
                 key={room.roomCode}
                 type="button"
-                className={classes.openRoomItem}
+                className="lobby__open-room-item"
                 onClick={(): void => onJoin(room.roomCode)}
               >
-                <span className={classes.openRoomCode}>{room.roomCode}</span>
-                <span className={classes.openRoomHost}>
+                <span className="lobby__open-room-code">{room.roomCode}</span>
+                <span className="lobby__open-room-host">
                   Host: {room.hostName}
                 </span>
               </button>
@@ -74,10 +71,10 @@ const OnlineLobbyJoin: React.FC<OnlineLobbyJoinProps> = ({
         )}
       </div>
 
-      <Typography className={classes.openRoomsDivider}>Or enter a code</Typography>
+      <Typography className="lobby__open-rooms-divider">Or enter a code</Typography>
       <TextField
         value={joinCode}
-        className={classes.input}
+        className="lobby__input"
         onChange={(e): void => onJoinCodeChange(e.target.value.toUpperCase())}
         label="Room code"
         variant="outlined"
@@ -85,7 +82,7 @@ const OnlineLobbyJoin: React.FC<OnlineLobbyJoinProps> = ({
         inputProps={{ maxLength: 6, style: { letterSpacing: "0.2em" } }}
         fullWidth
       />
-      <div className={classes.buttonContainer}>
+      <div className="lobby__button-container">
         <Button color="primary" variant="contained" onClick={(): void => onJoin()}>
           Join Game
         </Button>
@@ -93,7 +90,7 @@ const OnlineLobbyJoin: React.FC<OnlineLobbyJoinProps> = ({
           Back
         </Button>
       </div>
-      {error && <Typography className={classes.error}>{error}</Typography>}
+      {error && <Typography className="lobby__error">{error}</Typography>}
     </>
   );
 };

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Typography } from "@mui/material";
-import styles from "../../styles/online-lobby.style";
 
 interface OnlineLobbyWaitingProps {
   roomCode: string;
@@ -13,7 +12,6 @@ const OnlineLobbyWaiting: React.FC<OnlineLobbyWaitingProps> = ({
   status,
   error,
 }): JSX.Element => {
-  const classes = styles();
   const [copied, setCopied] = useState(false);
   const isCreating = !roomCode;
 
@@ -31,22 +29,22 @@ const OnlineLobbyWaiting: React.FC<OnlineLobbyWaitingProps> = ({
 
   return (
     <>
-      <Typography className={classes.title}>
+      <Typography className="lobby__title">
         {isCreating ? "Creating Room" : "Room Created"}
       </Typography>
-      <Typography className={classes.subtitle}>
+      <Typography className="lobby__subtitle">
         {isCreating
           ? "Hang tight while we set up your room..."
           : "Share this code with your opponent:"}
       </Typography>
       {isCreating ? (
-        <Typography className={classes.status}>Connecting to server...</Typography>
+        <Typography className="lobby__status">Connecting to server...</Typography>
       ) : (
-        <div className={classes.roomCodeRow}>
-          <span className={classes.roomCode}>{roomCode}</span>
+        <div className="lobby__room-code-row">
+          <span className="lobby__room-code">{roomCode}</span>
           <button
             type="button"
-            className={classes.copyButton}
+            className="lobby__copy-button"
             onClick={handleCopy}
             aria-label={copied ? "Room code copied" : "Copy room code"}
             title={copied ? "Copied!" : "Copy room code"}
@@ -59,9 +57,9 @@ const OnlineLobbyWaiting: React.FC<OnlineLobbyWaitingProps> = ({
         </div>
       )}
       {!isCreating && (
-        <Typography className={classes.status}>{status}</Typography>
+        <Typography className="lobby__status">{status}</Typography>
       )}
-      {error && <Typography className={classes.error}>{error}</Typography>}
+      {error && <Typography className="lobby__error">{error}</Typography>}
     </>
   );
 };

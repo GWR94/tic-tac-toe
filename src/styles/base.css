@@ -1,0 +1,36 @@
+:root {
+  --p1-green: #008000;
+  --p2-red: #f00;
+  --brand-green: #0f9128;
+  --brand-red: #d6463c;
+  --brand-orange: #e37005;
+  --breakpoint-sm: 740px;
+  --breakpoint-xs: 480px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 !important;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.tic-tac-toe__container {
+  background-size: cover;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: -2;
+  font-family: "Oswald", sans-serif !important;
+}

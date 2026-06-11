@@ -1,12 +1,10 @@
 import React from "react";
 import { useOnlineLobby } from "../../hooks/useOnlineLobby";
-import styles from "../../styles/online-lobby.style";
 import OnlineLobbyJoin from "./OnlineLobbyJoin";
 import OnlineLobbyMenu from "./OnlineLobbyMenu";
 import OnlineLobbyWaiting from "./OnlineLobbyWaiting";
 
 const OnlineLobby: React.FC = (): JSX.Element => {
-  const classes = styles();
   const {
     view,
     playerName,
@@ -26,9 +24,9 @@ const OnlineLobby: React.FC = (): JSX.Element => {
   } = useOnlineLobby();
 
   return (
-    <div className={`${classes.container} animate__animated animate__fadeIn`}>
+    <div className="lobby__container animate__animated animate__fadeIn">
       <i
-        className={`fa fa-undo ${classes.backButton}`}
+        className="fa fa-undo lobby__back-button"
         onClick={handleBack}
         role="button"
         tabIndex={0}

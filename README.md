@@ -1,66 +1,123 @@
-# Tic Tac Toe Game with Minimax Algorithm
+# Tic Tac Toe
 
 ![Tic-Tac-Toe](tictactoe.png)
 
-Play now: https://tic-tac-toe-2p-minimax.netlify.app/
+**Play now:** [https://tictactoe.jamesgower.dev](https://tictactoe.jamesgower.dev)
+
 ## Table of Contents
-  - [General Information](#general-information)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Computer Difficulties](#computer-difficulties)
-  - [2 Player Games](#2-player-games)
-  - [Technologies](#technologies)
-  - [Status](#status)
-  - [Todo](#todo)
 
-## General Information 
+- [General Information](#general-information)
+- [Game Modes](#game-modes)
+- [Online 1v1](#online-1v1)
+- [Computer Difficulties](#computer-difficulties)
+- [Local 2 Player](#local-2-player)
+- [Installation](#installation)
+- [Development](#development)
+- [Technologies](#technologies)
+- [Status](#status)
+- [Todo](#todo)
 
-Tic-Tac-Toe (or Noughts and Crosses) is a classic childhood game in which two players alternately put crosses and circles in one of the compartments of a square grid of nine spaces; the object is to get a row of three crosses or three circles before the opponent does.
+## General Information
 
-In this implementation of the game you can play locally against a friend, or play against the computer with 3 different difficulties: 
-- Easy: The computer will play randomly.
-- Normal: The computer is somewhat challenging.
-- Unbeatable: The computer cannot be beaten.
+Tic-Tac-Toe (or Noughts and Crosses) is a classic game where two players take turns placing X and O on a 3×3 grid. The first to get three in a row wins.
 
-In a future release you will be able to play against other players online instead of locally.
+This version supports local play, three AI difficulty levels, and real-time online multiplayer.
+
+## Game Modes
+
+On the home screen you can choose:
+
+- **Computer** — play against the AI (Easy, Normal, or Unbeatable)
+- **Local** — two players on the same device
+- **Online 1v1** — play against someone over the internet
+
+## Online 1v1
+
+Online games use a lobby system backed by Socket.io.
+
+### Create a room
+
+1. Choose **Online 1v1** from the home screen
+2. Enter your name and click **Create Room**
+3. Share the 6-character room code with your opponent (use the copy button next to the code)
+4. Wait for them to join — the game starts automatically
+
+### Join a room
+
+1. Choose **Online 1v1** → **Join Room**
+2. Enter your name
+3. Either:
+   - Pick a room from the **Open rooms** list, or
+   - Enter a room code manually and click **Join Game**
+
+Moves are synced in real time. If your opponent disconnects, you’ll be notified.
+
+## Computer Difficulties
+
+### Easy
+
+The computer plays random moves unless it accidentally lines up a win.
+
+### Normal
+
+Roughly a 50/50 mix of the best move and a random move — beatable, but not trivial.
+
+### Unbeatable
+
+Uses the minimax algorithm to always pick the optimal move. You cannot win; at best you can draw.
+
+## Local 2 Player
+
+Two players share one device, taking turns on the same board. Enter both names on the setup screen and play as usual.
 
 ## Installation
-To install the game locally you need to first clone the repository by clicking running `git clone https://github.com/jamesgower/tic-tac-toe.git` from the directory that you wish to install it to. Once the repository has been cloned you will need to install the projects' dependencies by running `npm install` from the root directory of the cloned repository. To access the app you can then run `npm run start` from the root directory, which will allow you to view the game at http://localhost:3000 .
 
-## Usage 
+Clone the repository and install dependencies:
 
-The simplest way to play Tic-Tac-Toe is by following [this](https://tic-tac-toe-2p-minimax.netlify.app/) link (https://tic-tac-toe-2p-minimax.netlify.app/). If you would prefer to install the repository locally and running it that way then please follow the above method [here](#installation).
+```bash
+git clone https://github.com/GWR94/tic-tac-toe.git
+cd tic-tac-toe
+npm install
+```
 
-There are two ways to play this game - against the computer (with 3 different difficulties) or playing locally against a friend on the same PC.
-### Computer Difficulties
+## Development
 
-#### Easy
+The app runs as two processes in development: a Vite frontend (port 3000) and an Express/Socket.io server (port 3001). API and WebSocket traffic is proxied through Vite.
 
-The 'easy' difficulty is obviously the simplest difficulty, where the computer will place random tiles on the board with no attempt to win the game unless it happens to randomly occur. Simple to get victories for all players.
+```bash
+npm run dev
+```
 
-#### Normal 
+Open [http://localhost:3000](http://localhost:3000).
 
-The 'normal' difficulty will give players a bit more of a challenge. There is a 50% chance that the computer will choose the best possibly move, however this is also a 50% chance that it will place a tile randomly. 'Normal' difficulty will give users a challenge, but it can also be beaten.
+Other scripts:
 
-#### Unbeatable
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Frontend + game server (development) |
+| `npm run dev:web` | Frontend only |
+| `npm run server:dev` | Game server only |
+| `npm run build` | Type-check and build for production |
+| `npm start` | Serve production build + game server |
 
-As the name suggests the 'unbeatable' difficulty is physically impossible to beat. The minimax algorithm allows the computer to place the best possible move from the current boards state, so there is no possible way to beat them. You can try - but you will fail!
+Production is deployed to Railway as a single service — the server serves the built frontend from `dist/` and handles Socket.io on the same port.
+
 ## Technologies
+
 - React 17
-- Create React App (TypeScript Template)
 - TypeScript
-- Redux
-- React-Redux
-- MiniMax Algorithm (For Unbeatable AI)
+- Vite
+- Redux / React-Redux
 - MUI (Material UI)
+- Socket.io (online multiplayer)
+- Express (game server)
+- Minimax algorithm (Unbeatable AI)
 
 ## Status
 
-The game is currently in a working state where users can both play against friends locally, and play against all 3 different AI difficulties. New features are planned to be completed, which are shown below ([here](#todo)).
+The game is fully playable in all modes: local 2-player, all three AI difficulties, and online 1v1 with room lobbies.
 
 ## Todo
 
-- Testing needs to be refactored and uploaded
-- Look into creating two player games over the internet via socket.io
-- Save player stats to their own profile (win/loss/draw etc)
-- Refactor and remove scss or css-in-js as they're currently overlapping
+- Refactor and add tests
+- Save player stats to a profile (win/loss/draw)

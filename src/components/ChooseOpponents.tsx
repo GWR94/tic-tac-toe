@@ -2,31 +2,28 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Button, Typography } from "@mui/material";
 import { SetNumPlayersAction } from "../interfaces/actions.i";
-import styles from "../styles/opponents.style";
 import * as actions from "../actions/player.action";
 
 const ChooseOpponents: React.FC = (): JSX.Element => {
-  const useStyles = styles;
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   return (
-    <div className={`${classes.container} animate__animated animate__fadeIn`}>
-      <Typography className={classes.title} gutterBottom>
+    <div className="opponents__container animate__animated animate__fadeIn">
+      <Typography className="opponents__title" gutterBottom>
         Welcome to Tic-Tac-Toe!
       </Typography>
-      <Typography className={classes.subtitle} sx={{ marginBottom: 3 }}>
+      <Typography className="opponents__subtitle" gutterBottom>
         Would you like to try your luck against the computer,
         <br />
         play locally against a friend, or challenge someone online?
       </Typography>
-      <Typography className={classes.subtitleTwo} gutterBottom>
+      <Typography className="opponents__subtitle-two" gutterBottom>
         There are 3 different difficulties to choose <br />
         when playing a one player game!
       </Typography>
-      <div className={classes.buttonContainer}>
+      <div className="opponents__button-container">
         <Button
-          className={classes.button}
+          className="opponents__button"
           color="primary"
           onClick={(): SetNumPlayersAction =>
             dispatch(actions.setNumPlayers(1))
@@ -37,7 +34,7 @@ const ChooseOpponents: React.FC = (): JSX.Element => {
           1 Player
         </Button>
         <Button
-          className={classes.button}
+          className="opponents__button"
           color="secondary"
           variant="outlined"
           onClick={(): SetNumPlayersAction =>
@@ -48,7 +45,7 @@ const ChooseOpponents: React.FC = (): JSX.Element => {
           2 Player
         </Button>
         <Button
-          className={classes.button}
+          className="opponents__button"
           color="success"
           variant="outlined"
           onClick={(): SetNumPlayersAction =>

@@ -1,0 +1,176 @@
+.lobby__container {
+  font-family: "Oswald", sans-serif;
+  height: 90%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 20px;
+  position: relative;
+}
+
+.lobby__title {
+  font-size: 2rem !important;
+  text-align: center;
+  font-family: "Oswald", sans-serif;
+  margin-bottom: 12px;
+}
+
+.lobby__subtitle {
+  font-size: 1.3rem !important;
+  text-align: center;
+  font-family: "Oswald", sans-serif;
+  margin-bottom: 20px;
+}
+
+.lobby__input {
+  margin-bottom: 20px;
+  max-width: 360px;
+  width: 100%;
+}
+
+.lobby__room-code {
+  font-size: 2.5rem;
+  letter-spacing: 0.3em;
+  font-weight: 700;
+  margin: 0;
+  color: var(--brand-green);
+  font-family: "Oswald", sans-serif;
+}
+
+.lobby__room-code-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.lobby__copy-button {
+  border: 2px solid var(--brand-green);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--brand-green);
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 10px 12px;
+}
+
+.lobby__copy-button:hover {
+  background: rgba(15, 145, 40, 0.1);
+}
+
+.lobby__button-container {
+  margin: 20px auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.lobby__back-button {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.lobby__status {
+  font-size: 1.1rem !important;
+  text-align: center;
+  margin-top: 12px;
+  color: #666;
+}
+
+.lobby__error {
+  color: var(--brand-red);
+  margin-top: 8px;
+  text-align: center;
+}
+
+.lobby__open-rooms-section {
+  max-width: 360px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.lobby__open-rooms-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.lobby__open-rooms-title {
+  font-size: 1.1rem !important;
+  font-family: "Oswald", sans-serif;
+}
+
+.lobby__open-rooms-empty {
+  font-size: 0.95rem !important;
+  text-align: center;
+  color: #666;
+  padding: 12px 0;
+}
+
+.lobby__open-rooms-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.lobby__open-room-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid var(--brand-green);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  font-family: "Oswald", sans-serif;
+  text-align: left;
+}
+
+.lobby__open-room-item:hover {
+  background: rgba(15, 145, 40, 0.1);
+}
+
+.lobby__open-room-code {
+  font-size: 1.2rem;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  color: var(--brand-green);
+}
+
+.lobby__open-room-host {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.lobby__open-rooms-divider {
+  font-size: 1rem !important;
+  text-align: center;
+  color: #666;
+  margin-bottom: 8px;
+  width: 100%;
+  max-width: 360px;
+}
+
+@media (max-width: 740px) {
+  .lobby__title {
+    font-size: 1.8rem !important;
+  }
+
+  .lobby__subtitle {
+    font-size: 1.1rem !important;
+  }
+}

@@ -1,0 +1,54 @@
+.opponents__container {
+  font-family: "Oswald", sans-serif;
+  height: 90%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.opponents__title {
+  font-size: 2rem !important;
+  text-align: center;
+  font-family: "Oswald", sans-serif;
+  margin-bottom: 12px;
+}
+
+.opponents__subtitle {
+  font-size: 1.5rem !important;
+  text-align: center;
+  font-family: "Oswald", sans-serif;
+  margin-bottom: 24px;
+}
+
+.opponents__subtitle-two {
+  font-size: 1.2rem !important;
+  text-align: center;
+  font-family: "Oswald", sans-serif;
+}
+
+.opponents__button-container {
+  margin: 30px auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.opponents__button {
+  margin: 0 10px;
+}
+
+@media (max-width: 740px) {
+  .opponents__title {
+    font-size: 1.8rem !important;
+  }
+
+  .opponents__subtitle {
+    font-size: 1.3rem !important;
+  }
+
+  .opponents__subtitle-two {
+    font-size: 1.1rem !important;
+  }
+}

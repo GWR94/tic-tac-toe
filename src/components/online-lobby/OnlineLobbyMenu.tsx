@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, TextField, Typography } from "@mui/material";
-import styles from "../../styles/online-lobby.style";
 
 interface OnlineLobbyMenuProps {
   playerName: string;
@@ -15,26 +14,24 @@ const OnlineLobbyMenu: React.FC<OnlineLobbyMenuProps> = ({
   onCreateRoom,
   onJoinRoom,
 }): JSX.Element => {
-  const classes = styles();
-
   return (
     <>
-      <Typography className={classes.title}>Online 1v1</Typography>
-      <Typography className={classes.subtitle}>
+      <Typography className="lobby__title">Online 1v1</Typography>
+      <Typography className="lobby__subtitle">
         Create a room and share the code with a friend,
         <br />
         or join an existing room.
       </Typography>
       <TextField
         value={playerName}
-        className={classes.input}
+        className="lobby__input"
         onChange={(e): void => onPlayerNameChange(e.target.value)}
         label="Your name"
         variant="outlined"
         margin="normal"
         fullWidth
       />
-      <div className={classes.buttonContainer}>
+      <div className="lobby__button-container">
         <Button color="primary" variant="contained" onClick={onCreateRoom}>
           Create Room
         </Button>

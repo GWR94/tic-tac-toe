@@ -10,7 +10,6 @@ import {
 import { Player } from "../interfaces/components.i";
 import { AppState } from "../store/store";
 import * as actions from "../actions/player.action";
-import styles from "../styles/names.style";
 import { ResetGameAction } from "../interfaces/actions.i";
 
 const ChooseNames: React.FC = (): JSX.Element => {
@@ -26,9 +25,6 @@ const ChooseNames: React.FC = (): JSX.Element => {
 
   const theme = createTheme();
   const desktop = useMediaQuery(theme.breakpoints.up("md"));
-
-  const useStyles = styles;
-  const classes = useStyles();
 
   useEffect((): void => {
     if (noPlayers === 1) {
@@ -90,25 +86,25 @@ const ChooseNames: React.FC = (): JSX.Element => {
   };
 
   return (
-    <div className={`${classes.container} animate__animated animate__fadeIn`}>
+    <div className="names__container animate__animated animate__fadeIn">
       <i
-        className={`fa fa-undo ${classes.backButton}`}
+        className="fa fa-undo names__back-button"
         onClick={(): ResetGameAction => dispatch(actions.reset())}
         role="button"
         tabIndex={0}
       />
-      <Typography className={classes.title}>
+      <Typography className="names__title">
         {noPlayers === 1
           ? 'Please select a difficulty and click "Play Game" to begin.'
           : 'Click "Play Game" to begin.'}
       </Typography>
-      <Typography className={classes.subtitle}>
+      <Typography className="names__subtitle">
         You can input your {noPlayers === 1 ? "name" : "names"} and change your
         counter by clicking on the X or O below.
       </Typography>
       <TextField
         value={player1.name}
-        className={classes.input}
+        className="names__input"
         onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
           onPlayerNameChange(e, 1)
         }
@@ -122,7 +118,7 @@ const ChooseNames: React.FC = (): JSX.Element => {
       {noPlayers === 2 && (
         <TextField
           value={player2.name}
-          className={classes.input}
+          className="names__input"
           onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
             onPlayerNameChange(e, 2)
           }
@@ -135,12 +131,12 @@ const ChooseNames: React.FC = (): JSX.Element => {
 
       {noPlayers === 1 && (
         <div>
-          <Typography className={classes.subtitle} style={{ marginTop: 12 }}>
+          <Typography className="names__subtitle" style={{ marginTop: 12 }}>
             What difficulty would you like to play against?
           </Typography>
-          <div className={classes.buttonContainer}>
+          <div className="names__button-container">
             <Button
-              className={classes.easyButton}
+              className="names__easy-button"
               variant={difficulty === 1 ? "outlined" : "text"}
               color="inherit"
               onClick={(): void => onChangeDifficulty(1)}
@@ -149,7 +145,7 @@ const ChooseNames: React.FC = (): JSX.Element => {
               Easy
             </Button>
             <Button
-              className={classes.normalButton}
+              className="names__normal-button"
               variant={difficulty === 2 ? "outlined" : "text"}
               color="inherit"
               onClick={(): void => onChangeDifficulty(2)}
@@ -158,7 +154,7 @@ const ChooseNames: React.FC = (): JSX.Element => {
               Normal
             </Button>
             <Button
-              className={classes.hardButton}
+              className="names__hard-button"
               variant={difficulty === 3 ? "outlined" : "text"}
               color="inherit"
               onClick={(): void => onChangeDifficulty(3)}
@@ -169,13 +165,13 @@ const ChooseNames: React.FC = (): JSX.Element => {
           </div>
         </div>
       )}
-      <div className={classes.countersContainer}>
-        <div className={classes.playerContainer} role="button" tabIndex={0}>
-          <Typography className={classes.counterText}>
+      <div className="names__counters-container">
+        <div className="names__player-container" role="button" tabIndex={0}>
+          <Typography className="names__counter-text">
             {player1.name.length > 0 ? player1.name : "Player 1"}:{" "}
           </Typography>
           <span
-            className={classes.counter}
+            className="names__counter"
             onClick={onChangeCounter}
             role="button"
             tabIndex={0}
@@ -184,12 +180,12 @@ const ChooseNames: React.FC = (): JSX.Element => {
             {player1.counter}
           </span>
         </div>
-        <div className={classes.playerContainer}>
-          <Typography className={classes.counterText}>
+        <div className="names__player-container">
+          <Typography className="names__counter-text">
             {player2.name.length > 0 ? player2.name : "Player 2"}:{" "}
           </Typography>
           <span
-            className={classes.counter}
+            className="names__counter"
             onClick={onChangeCounter}
             tabIndex={0}
             role="button"
