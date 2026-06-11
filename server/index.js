@@ -1,5 +1,6 @@
 const express = require("express");
 const http = require("http");
+const path = require("path");
 const cors = require("cors");
 const { Server } = require("socket.io");
 const {
@@ -10,13 +11,24 @@ const {
 } = require("./game");
 
 const PORT = process.env.PORT || 3001;
-const CLIENT_ORIGINS = (
-  process.env.CLIENT_ORIGIN || "http://localhost:3000"
-).split(",");
+const defaultOrigin = process.env.RAILWAY_PUBLIC_DOMAIN
+  ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
+  : "http://localhost:3000";
+const CLIENT_ORIGINS = (process.env.CLIENT_ORIGIN || defaultOrigin).split(",");
 
 const app = express();
+const distPath = path.join(__dirname, "..", "dist");
+
 app.use(cors({ origin: CLIENT_ORIGINS }));
 app.get("/health", (_req, res) => res.json({ ok: true }));
+app.use(express.static(distPath));
+app.get("*", (req, res, next) => {
+  if (req.path.startsWith("/socket.io")) {
+    next();
+    return;
+  }
+  res.sendFile(path.join(distPath, "index.html"));
+});
 
 const httpServer = http.createServer(app);
 const io = new Server(httpServer, {

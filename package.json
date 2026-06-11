@@ -16,10 +16,11 @@
     "socket.io-client": "^4.8.3"
   },
   "scripts": {
-    "dev": "concurrently \"npm run server\" \"vite\"",
-    "start": "vite",
-    "server": "node server/index.js",
-    "build": "tsc && vite build",
+    "dev": "concurrently \"npm run server:dev\" \"vite\"",
+    "dev:web": "vite",
+    "server:dev": "node server/index.js",
+    "start": "node server/index.js",
+    "build": "npm install --prefix server && tsc && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
