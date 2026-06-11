@@ -59,8 +59,10 @@ export interface UseOnlineLobbyReturn {
 export const useOnlineLobby = (): UseOnlineLobbyReturn => {
   const dispatch = useDispatch();
   const playerSlotRef = useRef<1 | 2 | null>(null);
+  const viewRef = useRef<LobbyView>("menu");
 
   const [view, setView] = useState<LobbyView>("menu");
+  viewRef.current = view;
   const [playerName, setPlayerName] = useState("");
   const [roomCode, setRoomCode] = useState("");
   const [joinCode, setJoinCode] = useState("");
@@ -87,7 +89,7 @@ export const useOnlineLobby = (): UseOnlineLobbyReturn => {
     };
 
     const onOpenRoomsChanged = (): void => {
-      if (view === "join") {
+      if (viewRef.current === "join") {
         refreshOpenRooms();
       }
     };
@@ -147,7 +149,7 @@ export const useOnlineLobby = (): UseOnlineLobbyReturn => {
       socket.off("open-rooms-list", onOpenRoomsList);
       socket.off("open-rooms-changed", onOpenRoomsChanged);
     };
-  }, [dispatch, refreshOpenRooms, view]);
+  }, [dispatch, refreshOpenRooms]);
 
   useEffect(() => {
     if (view !== "join") return;

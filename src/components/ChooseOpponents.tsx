@@ -15,7 +15,7 @@ const ChooseOpponents: React.FC = (): JSX.Element => {
       <Typography className={classes.title} gutterBottom>
         Welcome to Tic-Tac-Toe!
       </Typography>
-      <Typography className={classes.subtitle} gutterBottom>
+      <Typography className={classes.subtitle} sx={{ marginBottom: 3 }}>
         Would you like to try your luck against the computer,
         <br />
         play locally against a friend, or challenge someone online?

@@ -7,12 +7,6 @@
 
 * {
   box-sizing: border-box;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 body {
@@ -41,6 +35,8 @@ body {
   height: 400px;
   margin: 5px auto 0;
   width: 400px;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 @media (max-width: 740px) {
@@ -192,6 +188,8 @@ body {
   height: 33.333%;
   padding: 10px;
   width: 33.333%;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .tile__container:first-of-type {
