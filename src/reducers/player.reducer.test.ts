@@ -9,9 +9,12 @@ import {
   PLAYER_TWO_SCORE,
   RESET_SCORE,
   SET_PLAYER_SCORES,
+  PlayerActionTypes,
 } from "../interfaces/actions.i";
 
-const baseState = playerReducer(undefined, { type: "@@INIT" });
+const baseState = playerReducer(undefined, {
+  type: "@test/unknown",
+} as PlayerActionTypes);
 
 describe("playerReducer", () => {
   it("sets the selected game mode", () => {
