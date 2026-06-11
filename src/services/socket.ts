@@ -1,8 +1,6 @@
 import { io, Socket } from "socket.io-client";
 
-const SOCKET_URL =
-  import.meta.env.VITE_SOCKET_URL ||
-  (import.meta.env.DEV ? "http://localhost:3001" : undefined);
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || undefined;
 
 let socket: Socket | null = null;
 

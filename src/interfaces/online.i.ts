@@ -29,3 +29,12 @@ export interface GameStartPayload {
 export interface JoinErrorPayload {
   message: string;
 }
+
+export interface OpenRoom {
+  roomCode: string;
+  hostName: string;
+}
+
+export interface OpenRoomsListPayload {
+  rooms: OpenRoom[];
+}

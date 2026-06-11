@@ -19,17 +19,6 @@ const CLIENT_ORIGINS = (process.env.CLIENT_ORIGIN || defaultOrigin).split(",");
 const app = express();
 const distPath = path.join(__dirname, "..", "dist");
 
-app.use(cors({ origin: CLIENT_ORIGINS }));
-app.get("/health", (_req, res) => res.json({ ok: true }));
-app.use(express.static(distPath));
-app.get("*", (req, res, next) => {
-  if (req.path.startsWith("/socket.io")) {
-    next();
-    return;
-  }
-  res.sendFile(path.join(distPath, "index.html"));
-});
-
 const httpServer = http.createServer(app);
 const io = new Server(httpServer, {
   cors: {
@@ -39,6 +28,19 @@ const io = new Server(httpServer, {
 });
 
 const rooms = new Map();
+
+const getOpenRooms = () =>
+  [...rooms.values()]
+    .filter((room) => !room.players[2])
+    .map((room) => ({
+      roomCode: room.code,
+      hostName: room.players[1].name,
+    }))
+    .sort((a, b) => a.roomCode.localeCompare(b.roomCode));
+
+const broadcastOpenRoomsChanged = () => {
+  io.emit("open-rooms-changed");
+};
 
 const getRoomBySocket = (socketId) => {
   for (const room of rooms.values()) {
@@ -70,9 +72,28 @@ const removePlayerFromRoom = (socketId) => {
   }
 
   rooms.delete(room.code);
+  broadcastOpenRoomsChanged();
 };
 
+app.use(cors({ origin: CLIENT_ORIGINS }));
+app.get("/health", (_req, res) => res.json({ ok: true }));
+app.get("/api/open-rooms", (_req, res) => {
+  res.json({ rooms: getOpenRooms() });
+});
+app.use(express.static(distPath));
+app.get("*", (req, res, next) => {
+  if (req.path.startsWith("/socket.io")) {
+    next();
+    return;
+  }
+  res.sendFile(path.join(distPath, "index.html"));
+});
+
 io.on("connection", (socket) => {
+  socket.on("list-open-rooms", () => {
+    socket.emit("open-rooms-list", { rooms: getOpenRooms() });
+  });
+
   socket.on("create-room", ({ playerName }) => {
     removePlayerFromRoom(socket.id);
 
@@ -103,6 +124,7 @@ io.on("connection", (socket) => {
       roomCode: code,
       playerSlot: 1,
     });
+    broadcastOpenRoomsChanged();
   });
 
   socket.on("join-room", ({ roomCode, playerName }) => {
@@ -154,6 +176,7 @@ io.on("connection", (socket) => {
     };
 
     io.to(code).emit("game-start", gameStartPayload);
+    broadcastOpenRoomsChanged();
   });
 
   socket.on("make-move", ({ roomCode, squareId }) => {

@@ -16,6 +16,8 @@ const OnlineLobby: React.FC = (): JSX.Element => {
     setJoinCode,
     status,
     error,
+    openRooms,
+    refreshOpenRooms,
     handleBack,
     handleCreateRoom,
     handleJoinRoom,
@@ -44,9 +46,11 @@ const OnlineLobby: React.FC = (): JSX.Element => {
           playerName={playerName}
           joinCode={joinCode}
           error={error}
+          openRooms={openRooms}
           onPlayerNameChange={setPlayerName}
           onJoinCodeChange={setJoinCode}
           onJoin={handleJoinRoom}
+          onRefreshRooms={refreshOpenRooms}
           onBack={goToMenu}
         />
       )}
