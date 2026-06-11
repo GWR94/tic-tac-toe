@@ -20,7 +20,9 @@
     "server:dev": "node server/index.js",
     "start": "node server/index.js",
     "build": "npm install --prefix server && tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run && node --test server/game.test.js server/rooms.test.js",
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "@types/react": "^17.0.30",
@@ -28,6 +30,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^8.2.2",
     "typescript": "^5.7.2",
-    "vite": "^6.0.3"
+    "vite": "^6.0.3",
+    "vitest": "^3.0.5"
   }
 }

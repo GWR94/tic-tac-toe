@@ -98,6 +98,7 @@ Other scripts:
 | `npm run dev:web` | Frontend only |
 | `npm run server:dev` | Game server only |
 | `npm run build` | Type-check and build for production |
+| `npm test` | Run unit tests |
 | `npm start` | Serve production build + game server |
 
 Production is deployed to Railway as a single service — the server serves the built frontend from `dist/` and handles Socket.io on the same port.
@@ -119,5 +120,4 @@ The game is fully playable in all modes: local 2-player, all three AI difficulti
 
 ## Todo
 
-- Refactor and add tests
 - Save player stats to a profile (win/loss/draw)

@@ -9,6 +9,7 @@ const {
   isDraw,
   generateRoomCode,
 } = require("./game");
+const { getOpenRooms } = require("./rooms");
 
 const PORT = process.env.PORT || 3001;
 const defaultOrigin = process.env.RAILWAY_PUBLIC_DOMAIN
@@ -28,15 +29,6 @@ const io = new Server(httpServer, {
 });
 
 const rooms = new Map();
-
-const getOpenRooms = () =>
-  [...rooms.values()]
-    .filter((room) => !room.players[2])
-    .map((room) => ({
-      roomCode: room.code,
-      hostName: room.players[1].name,
-    }))
-    .sort((a, b) => a.roomCode.localeCompare(b.roomCode));
 
 const broadcastOpenRoomsChanged = () => {
   io.emit("open-rooms-changed");
@@ -78,7 +70,7 @@ const removePlayerFromRoom = (socketId) => {
 app.use(cors({ origin: CLIENT_ORIGINS }));
 app.get("/health", (_req, res) => res.json({ ok: true }));
 app.get("/api/open-rooms", (_req, res) => {
-  res.json({ rooms: getOpenRooms() });
+  res.json({ rooms: getOpenRooms(rooms) });
 });
 app.use(express.static(distPath));
 app.get("*", (req, res, next) => {
@@ -91,7 +83,7 @@ app.get("*", (req, res, next) => {
 
 io.on("connection", (socket) => {
   socket.on("list-open-rooms", () => {
-    socket.emit("open-rooms-list", { rooms: getOpenRooms() });
+    socket.emit("open-rooms-list", { rooms: getOpenRooms(rooms) });
   });
 
   socket.on("create-room", ({ playerName }) => {
