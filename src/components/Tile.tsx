@@ -5,15 +5,15 @@ import { AppState } from "../store/store";
 
 const Tile: React.FC<TileProps> = ({
   takeTurn,
+  takeOnlineMove,
   id,
   disableClicks,
   takeAITurn,
   disableTileClicks,
   currentTurn,
 }: TileProps): JSX.Element => {
-  const { noPlayers, player1, player2, currentPlayer } = useSelector(
-    ({ player }: AppState): PlayerState => player
-  );
+  const { noPlayers, player1, player2, currentPlayer, onlinePlayerSlot } =
+    useSelector(({ player }: AppState): PlayerState => player);
   const tiles = useSelector(({ board }: AppState): number[] => board.tiles);
 
   const setDisabled = (): void => {
@@ -24,7 +24,11 @@ const Tile: React.FC<TileProps> = ({
     if (currentTurn.current) currentTurn.current.className = "";
 
     if (typeof tiles[parseInt(id)] === "number") {
-      if (noPlayers === 1) {
+      if (noPlayers === 3 && takeOnlineMove) {
+        if (onlinePlayerSlot !== currentPlayer) return;
+        takeOnlineMove(id);
+        setDisabled();
+      } else if (noPlayers === 1) {
         const aiTurn: boolean = takeTurn(id, player1.counter);
         setDisabled();
         if (aiTurn) {

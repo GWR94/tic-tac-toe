@@ -27,6 +27,7 @@ export const UPDATE_CURRENT_TURN = "UPDATE_CURRENT_TURN";
 export const RESET_SCORE = "RESET_SCORE";
 export const SET_CURRENT_PLAYER = "SET_CURRENT_PLAYER";
 export const RESET_GAME = "RESET_GAME";
+export const SET_PLAYER_SCORES = "SET_PLAYER_SCORES";
 
 export interface ChangePlayerAction {
   type: typeof CHANGE_PLAYER_AFTER_MOVE;
@@ -46,6 +47,8 @@ export interface SetupPlayersAction {
   player1: Player;
   player2: Player;
   difficulty: number;
+  roomCode?: string;
+  onlinePlayerSlot?: 1 | 2;
 }
 
 export interface PlayerOneScoreAction {
@@ -70,6 +73,12 @@ export interface SetCurrentPlayerAction {
   player: number;
 }
 
+export interface SetPlayerScoresAction {
+  type: typeof SET_PLAYER_SCORES;
+  player1Score: number;
+  player2Score: number;
+}
+
 export interface NameDispatchProps {
   reset: () => ResetGameAction;
   setupPlayers: (
@@ -90,6 +99,7 @@ export interface PlayDispatchProps {
   setCurrentPlayer: (player: number) => SetCurrentPlayerAction;
   resetBoard: () => ResetBoardAction;
   addMove: (board: number[]) => AddMoveAction;
+  setPlayerScores: (player1Score: number, player2Score: number) => SetPlayerScoresAction;
 }
 
 declare type ActionTypes =
@@ -102,6 +112,7 @@ declare type ActionTypes =
   | ResetScoreAction
   | UpdateCurrentTurnAction
   | SetCurrentPlayerAction
+  | SetPlayerScoresAction
   | AddMoveAction
   | ResetBoardAction;
 

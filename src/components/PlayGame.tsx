@@ -18,6 +18,7 @@ import ActionTypes, {
   ResetBoardAction,
   AddMoveAction,
   PlayDispatchProps,
+  SetPlayerScoresAction,
 } from "../interfaces/actions.i";
 import * as playerActions from "../actions/player.action";
 import * as boardActions from "../actions/board.action";
@@ -25,8 +26,12 @@ import Tile from "./Tile";
 import ScoreBoard from "./ScoreBoard";
 import { tilesData, winCombos } from "../data/tiles.data";
 import { AppState } from "../store/store";
+import { getSocket } from "../services/socket";
+import { Socket } from "socket.io-client";
 
 class PlayGame extends React.Component<PlayProps, PlayState> {
+  private socket: Socket | null = null;
+
   public readonly state: PlayState = {
     disableClicks: false,
     gameFinished: false,
@@ -37,6 +42,11 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
   private player2ScoreRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount(): void {
+    const { player } = this.props;
+    if (player.noPlayers === 3) {
+      this.setupOnlineListeners();
+    }
+
     setTimeout((): void => {
       const p1score = this.player1ScoreRef.current;
       const p2score = this.player2ScoreRef.current;
@@ -49,13 +59,162 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
         p2score.className = "animate__animated animate__fadeIn";
       }
     }, 1000);
+
+    if (player.noPlayers === 3 && player.onlinePlayerSlot !== 1) {
+      const { updateCurrentTurn } = this.props;
+      updateCurrentTurn(`Waiting for ${player.player1.name}...`);
+      this.setState({ disableClicks: true });
+    }
   }
+
+  public componentWillUnmount(): void {
+    this.cleanupOnlineListeners();
+  }
+
+  private setupOnlineListeners = (): void => {
+    this.socket = getSocket();
+
+    this.socket.on("move-made", this.handleOnlineMove);
+    this.socket.on("round-reset", this.handleOnlineRoundReset);
+    this.socket.on("move-error", this.handleMoveError);
+    this.socket.on("opponent-disconnected", this.handleOpponentDisconnected);
+  };
+
+  private cleanupOnlineListeners = (): void => {
+    if (!this.socket) return;
+
+    this.socket.off("move-made", this.handleOnlineMove);
+    this.socket.off("round-reset", this.handleOnlineRoundReset);
+    this.socket.off("move-error", this.handleMoveError);
+    this.socket.off("opponent-disconnected", this.handleOpponentDisconnected);
+  };
+
+  private handleMoveError = (data: { message: string }): void => {
+    const { updateCurrentTurn } = this.props;
+    updateCurrentTurn(data.message);
+    this.setState({ disableClicks: false });
+  };
+
+  private handleOpponentDisconnected = (): void => {
+    const { updateCurrentTurn } = this.props;
+    updateCurrentTurn("Your opponent disconnected.");
+    this.setState({ disableClicks: true });
+  };
+
+  private handleOnlineMove = (data: {
+    squareId: string;
+    counter: "X" | "O";
+    currentPlayer: number;
+    scores: { player1: number; player2: number };
+    gameOver?: {
+      type: "win" | "draw";
+      winner?: number;
+      winIndex?: number;
+      counter?: "X" | "O";
+    };
+  }): void => {
+    const {
+      player,
+      addMove,
+      board,
+      updateCurrentTurn,
+      setCurrentPlayer,
+      setPlayerScores,
+    } = this.props;
+    const { player1, player2 } = player;
+    const { tiles } = board;
+
+    const newBoard = [...tiles] as Array<number | "X" | "O">;
+    newBoard[parseInt(data.squareId, 10)] = data.counter;
+    addMove(newBoard as number[]);
+
+    const tile = document.getElementById(data.squareId);
+    if (tile) {
+      tile.innerText = data.counter;
+      tile.className =
+        data.counter === player1.counter
+          ? "tile__text--p1 animate__animated animate__fadeIn"
+          : "tile__text--p2 animate__animated animate__fadeIn";
+    }
+
+    setPlayerScores(data.scores.player1, data.scores.player2);
+    setCurrentPlayer(data.currentPlayer);
+
+    if (data.gameOver?.type === "win" && data.gameOver.winIndex !== undefined) {
+      this.gameOver(
+        {
+          index: data.gameOver.winIndex,
+          player: data.gameOver.counter || data.counter,
+        },
+        true
+      );
+      return;
+    }
+
+    if (data.gameOver?.type === "draw") {
+      updateCurrentTurn("It's a draw!");
+      this.setState({ disableClicks: true, gameFinished: true });
+      return;
+    }
+
+    if (data.currentPlayer === player.onlinePlayerSlot) {
+      updateCurrentTurn("Your turn.");
+      this.setState({ disableClicks: false });
+    } else {
+      const opponent =
+        data.currentPlayer === 1 ? player1.name : player2.name;
+      updateCurrentTurn(`Waiting for ${opponent}...`);
+      this.setState({ disableClicks: true });
+    }
+  };
+
+  private handleOnlineRoundReset = (data: { currentPlayer: number }): void => {
+    const { player, resetBoard, setCurrentPlayer, updateCurrentTurn } =
+      this.props;
+    const { player1, player2, onlinePlayerSlot } = player;
+
+    for (let i = 0; i < 9; i++) {
+      const index = i.toString();
+      const tile = document.getElementById(index);
+      if (tile) {
+        tile.style.background = "none";
+        tile.innerText = "";
+      }
+    }
+
+    resetBoard();
+    setCurrentPlayer(data.currentPlayer);
+
+    if (data.currentPlayer === onlinePlayerSlot) {
+      updateCurrentTurn("Your turn.");
+      this.setState({ disableClicks: false, gameFinished: false });
+    } else {
+      const opponent = data.currentPlayer === 1 ? player1.name : player2.name;
+      updateCurrentTurn(`Waiting for ${opponent}...`);
+      this.setState({ disableClicks: true, gameFinished: false });
+    }
+
+    if (this.player1ScoreRef.current) this.player1ScoreRef.current.className = "";
+    if (this.player2ScoreRef.current) this.player2ScoreRef.current.className = "";
+  };
+
+  public takeOnlineMove = (squareId: string): void => {
+    const { player } = this.props;
+    if (!player.roomCode || !this.socket) return;
+
+    this.socket.emit("make-move", {
+      roomCode: player.roomCode,
+      squareId,
+    });
+  };
 
   public componentWillUpdate(nextProps: PlayProps, nextState: PlayState): void {
     const currentTurn = this.currentTurnRef.current;
     if (currentTurn) currentTurn.className = "";
     if (nextState.gameFinished) {
       nextState.gameFinished = false;
+      if (this.props.player.noPlayers === 3) return;
+
       setTimeout((): void => {
         const { player, updateCurrentTurn } = this.props;
         const { player1, player2, noPlayers, currentPlayer } = player;
@@ -95,9 +254,9 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
     const { currentPlayer, player1, player2, noPlayers } = player;
     const { tiles } = board;
 
-    const newBoard = tiles;
-    newBoard[squareId] = playerCounter;
-    addMove(newBoard);
+    const newBoard = tiles as Array<number | "X" | "O">;
+    newBoard[parseInt(squareId, 10)] = playerCounter;
+    addMove(newBoard as number[]);
 
     const tile = document.getElementById(squareId);
     if (tile) {
@@ -168,11 +327,12 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
     return gameWon;
   };
 
-  private gameOver = (gameWon: GameWon): void => {
+  private gameOver = (gameWon: GameWon, skipScore = false): void => {
     const {
       player: { player1 },
       playerOneScore,
       playerTwoScore,
+      updateCurrentTurn,
     } = this.props;
 
     for (const index of winCombos[gameWon.index]) {
@@ -188,7 +348,15 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
       ? this.player1ScoreRef.current?.classList.add("scores__animation--p1")
       : this.player2ScoreRef.current?.classList.add("scores__animation--p2");
 
-    gameWon.player === player1.counter ? playerOneScore() : playerTwoScore();
+    if (!skipScore) {
+      gameWon.player === player1.counter ? playerOneScore() : playerTwoScore();
+    } else {
+      const winnerName =
+        gameWon.player === player1.counter
+          ? player1.name
+          : this.props.player.player2.name;
+      updateCurrentTurn(`${winnerName} wins!`);
+    }
 
     this.setState({
       disableClicks: true,
@@ -363,6 +531,7 @@ class PlayGame extends React.Component<PlayProps, PlayState> {
             return (
               <Tile
                 takeTurn={this.takeTurn}
+                takeOnlineMove={this.takeOnlineMove}
                 key={tile}
                 id={tile}
                 currentTurn={this.currentTurnRef}
@@ -398,6 +567,11 @@ const mapDispatchToProps = (
   resetBoard: (): ResetBoardAction => dispatch(boardActions.resetBoard()),
   addMove: (board: number[]): AddMoveAction =>
     dispatch(boardActions.addMove(board)),
+  setPlayerScores: (
+    player1Score: number,
+    player2Score: number
+  ): SetPlayerScoresAction =>
+    dispatch(playerActions.setPlayerScores(player1Score, player2Score)),
 });
 
 const mapStateToProps = ({ player, board }: AppState): AppState => ({

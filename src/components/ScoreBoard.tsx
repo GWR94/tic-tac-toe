@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ScoreBoardProps, PlayerState } from "../interfaces/components.i";
 import { AppState } from "../store/store";
+import { disconnectSocket, getSocket } from "../services/socket";
 import * as boardActions from "../actions/board.action";
 import * as playerActions from "../actions/player.action";
 import { Tooltip } from "@mui/material";
@@ -11,7 +12,7 @@ const ScoreBoard: React.SFC<ScoreBoardProps> = ({
   player2ScoreRef,
   enableTiles,
 }): JSX.Element => {
-  const { player1, player2 } = useSelector(
+  const { player1, player2, noPlayers } = useSelector(
     ({ player }: AppState): PlayerState => player
   );
 
@@ -48,7 +49,13 @@ const ScoreBoard: React.SFC<ScoreBoardProps> = ({
           className="fas fa-arrow-left play__back-button animate__animated animate__fadeIn animate__delay-2s"
           role="button"
           tabIndex={0}
-          onClick={() => dispatch(playerActions.reset())}
+          onClick={(): void => {
+            if (noPlayers === 3) {
+              getSocket().emit("leave-room");
+              disconnectSocket();
+            }
+            dispatch(playerActions.reset());
+          }}
         />
       </Tooltip>
       <Tooltip arrow placement="top" title="Restart Current Game">

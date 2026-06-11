@@ -1,0 +1,260 @@
+:root {
+  --p1-green: #008000;
+  --p2-red: #f00;
+  --breakpoint-sm: 740px;
+  --breakpoint-xs: 480px;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+body {
+  margin: 0 !important;
+}
+
+.tic-tac-toe__container {
+  background-size: cover;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: -2;
+  font-family: "Oswald", sans-serif !important;
+}
+
+.play__container {
+  margin: 10vh auto 0;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.play__grid {
+  height: 400px;
+  margin: 5px auto 0;
+  width: 400px;
+}
+
+@media (max-width: 740px) {
+  .play__grid {
+    height: 300px;
+    width: 300px;
+    margin: auto;
+  }
+}
+
+.play__back-button,
+.play__reset-button {
+  cursor: pointer;
+  font-size: 30px;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+}
+
+.scores__container {
+  margin: 0 auto;
+  width: 460px;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 740px) {
+  .scores__container {
+    width: 70vw;
+    margin: 0 15vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .scores__container {
+    width: 90vw;
+    margin: 0 5vw;
+  }
+}
+
+#current-turn {
+  font-size: 20px;
+  margin: 40px auto 20px;
+  text-align: center;
+  width: 200px;
+}
+
+@media (max-width: 480px) {
+  #current-turn {
+    margin: 20px auto 10px;
+  }
+}
+
+.scores__player--container {
+  display: inline-flex;
+  font-size: 20px;
+  justify-content: space-evenly;
+}
+
+@media (max-width: 740px) {
+  .scores__player--container {
+    font-size: 18px;
+  }
+}
+
+#p1score,
+#p2score {
+  font-size: 30px;
+  line-height: 28px;
+  text-align: center;
+  visibility: hidden;
+  width: 40px;
+}
+
+#p1score {
+  color: var(--p1-green);
+}
+
+#p2score {
+  color: var(--p2-red);
+}
+
+@media (max-width: 480px) {
+  #p1score,
+  #p2score {
+    font-size: 28px;
+    line-height: 26px;
+    width: 26px;
+  }
+}
+
+.scores__animation--p1,
+.scores__animation--p2 {
+  animation-duration: 1s;
+  animation-play-state: running;
+}
+
+.scores__animation--p1 {
+  animation-name: bigToSmallP1;
+}
+
+.scores__animation--p2 {
+  animation-name: bigToSmallP2;
+}
+
+@keyframes bigToSmallP1 {
+  0% {
+    font-size: 30px;
+  }
+  25% {
+    font-size: 45px;
+  }
+  50% {
+    color: var(--p1-green);
+    font-size: 60px;
+  }
+  75% {
+    font-size: 45px;
+  }
+  100% {
+    font-size: 30px;
+  }
+}
+
+@keyframes bigToSmallP2 {
+  0% {
+    font-size: 30px;
+  }
+  25% {
+    font-size: 45px;
+  }
+  50% {
+    color: var(--p2-red);
+    font-size: 60px;
+  }
+  75% {
+    font-size: 45px;
+  }
+  100% {
+    font-size: 30px;
+  }
+}
+
+.tile__container {
+  background: none;
+  border: 2px solid black;
+  display: block;
+  float: left;
+  height: 33.333%;
+  padding: 10px;
+  width: 33.333%;
+}
+
+.tile__container:first-of-type {
+  border-left-color: transparent;
+  border-top-color: transparent;
+}
+
+.tile__container:nth-of-type(2) {
+  border-top-color: transparent;
+}
+
+.tile__container:nth-of-type(3) {
+  border-right-color: transparent;
+  border-top-color: transparent;
+}
+
+.tile__container:nth-of-type(4),
+.tile__container:nth-of-type(7) {
+  border-left-color: transparent;
+}
+
+.tile__container:nth-of-type(6),
+.tile__container:nth-of-type(9) {
+  border-right-color: transparent;
+}
+
+.tile__container:nth-of-type(7),
+.tile__container:nth-of-type(8),
+.tile__container:nth-of-type(9) {
+  border-bottom-color: transparent;
+}
+
+.tile__text,
+.tile__text--p1,
+.tile__text--p2 {
+  cursor: pointer;
+  font-size: 100px;
+  height: 100%;
+  line-height: 100px;
+  text-align: center;
+  width: 100%;
+  font-family: "Sriracha", sans-serif !important;
+}
+
+.tile__text:focus,
+.tile__text--p1:focus,
+.tile__text--p2:focus {
+  outline: none;
+}
+
+@media (max-width: 740px) {
+  .tile__text,
+  .tile__text--p1,
+  .tile__text--p2 {
+    font-size: 80px;
+    line-height: 70px;
+  }
+}
+
+.tile__text--p1 {
+  color: #0f9128;
+}
+
+.tile__text--p2 {
+  color: #d6463c !important;
+}

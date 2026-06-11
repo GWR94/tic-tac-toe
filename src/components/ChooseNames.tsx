@@ -115,6 +115,7 @@ const ChooseNames: React.FC = (): JSX.Element => {
         size={desktop ? "medium" : "small"}
         label="Player 1"
         variant="outlined"
+        margin="normal"
         fullWidth
       />
 
@@ -127,8 +128,8 @@ const ChooseNames: React.FC = (): JSX.Element => {
           }
           label="Player 2"
           variant="outlined"
+          margin="normal"
           fullWidth
-          style={{ margin: "20px 0" }}
         />
       )}
 

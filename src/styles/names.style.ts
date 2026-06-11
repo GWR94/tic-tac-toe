@@ -43,7 +43,7 @@ export default makeStyles({
   },
   input: {
     width: "70%",
-    margin: "0 auto",
+    margin: "0 auto 20px",
     [theme.breakpoints.down("sm")]: {
       width: "90%",
     },

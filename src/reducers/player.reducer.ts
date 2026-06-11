@@ -8,6 +8,7 @@ import PlayerActionTypes, {
   RESET_SCORE,
   UPDATE_CURRENT_TURN,
   SET_CURRENT_PLAYER,
+  SET_PLAYER_SCORES,
 } from "../interfaces/actions.i";
 import { PlayerState } from "../interfaces/components.i";
 
@@ -48,6 +49,7 @@ export default (
     case SETUP_PLAYERS:
       return {
         ...state,
+        noPlayers: action.roomCode ? 3 : state.noPlayers,
         player1: {
           ...state.player1,
           ...action.player1,
@@ -59,6 +61,8 @@ export default (
         difficulty: action.difficulty,
         readyToPlay: true,
         currentTurn: `It's ${action.player1.name}'s turn.`,
+        roomCode: action.roomCode,
+        onlinePlayerSlot: action.onlinePlayerSlot,
       };
     case PLAYER_ONE_SCORE:
       return {
@@ -103,6 +107,18 @@ export default (
       return {
         ...state,
         currentPlayer: action.player,
+      };
+    case SET_PLAYER_SCORES:
+      return {
+        ...state,
+        player1: {
+          ...state.player1,
+          score: action.player1Score,
+        },
+        player2: {
+          ...state.player2,
+          score: action.player2Score,
+        },
       };
     default:
       return state;

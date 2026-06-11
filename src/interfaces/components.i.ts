@@ -11,6 +11,8 @@ export interface PlayerState {
   currentPlayer: number;
   readyToPlay: boolean;
   currentTurn: string;
+  roomCode?: string;
+  onlinePlayerSlot?: 1 | 2;
 }
 
 export interface BoardState {
@@ -29,6 +31,7 @@ export interface PlayProps {
   resetBoard?: () => void;
   resetScore?: () => void;
   setCurrentPlayer: (player: number) => void;
+  setPlayerScores?: (player1Score: number, player2Score: number) => void;
 }
 
 export interface PlayState {
@@ -38,6 +41,7 @@ export interface PlayState {
 
 export interface TileProps {
   takeTurn: (id: any, counter: "X" | "O") => boolean;
+  takeOnlineMove?: (id: string) => void;
   takeAITurn: () => void;
   id: string;
   disableClicks: boolean;

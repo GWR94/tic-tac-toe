@@ -18,7 +18,7 @@ const ChooseOpponents: React.FC = (): JSX.Element => {
       <Typography className={classes.subtitle} gutterBottom>
         Would you like to try your luck against the computer,
         <br />
-        or play against a friend?
+        play locally against a friend, or challenge someone online?
       </Typography>
       <Typography className={classes.subtitleTwo} gutterBottom>
         There are 3 different difficulties to choose <br />
@@ -46,6 +46,17 @@ const ChooseOpponents: React.FC = (): JSX.Element => {
           style={{ margin: "0 3px" }}
         >
           2 Player
+        </Button>
+        <Button
+          className={classes.button}
+          color="success"
+          variant="outlined"
+          onClick={(): SetNumPlayersAction =>
+            dispatch(actions.setNumPlayers(3))
+          }
+          style={{ margin: "0 3px" }}
+        >
+          Online 1v1
         </Button>
       </div>
     </div>

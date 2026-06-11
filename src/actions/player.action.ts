@@ -17,6 +17,8 @@ import {
   ResetScoreAction,
   SET_CURRENT_PLAYER,
   SetCurrentPlayerAction,
+  SET_PLAYER_SCORES,
+  SetPlayerScoresAction,
 } from "../interfaces/actions.i";
 import { Player } from "../interfaces/components.i";
 
@@ -49,6 +51,20 @@ export const setupPlayers = (
   difficulty,
 });
 
+export const setupOnlineGame = (
+  player1: Player,
+  player2: Player,
+  roomCode: string,
+  onlinePlayerSlot: 1 | 2
+): SetupPlayersAction => ({
+  type: SETUP_PLAYERS,
+  player1,
+  player2,
+  difficulty: 2,
+  roomCode,
+  onlinePlayerSlot,
+});
+
 export const playerOneScore = (): PlayerOneScoreAction => ({
   type: PLAYER_ONE_SCORE,
 });
@@ -64,4 +80,13 @@ export const resetScore = (): ResetScoreAction => ({
 export const updateCurrentTurn = (turn: string): UpdateCurrentTurnAction => ({
   type: UPDATE_CURRENT_TURN,
   turn,
+});
+
+export const setPlayerScores = (
+  player1Score: number,
+  player2Score: number
+): SetPlayerScoresAction => ({
+  type: SET_PLAYER_SCORES,
+  player1Score,
+  player2Score,
 });

@@ -6,10 +6,11 @@ import ChooseOpponents from "./ChooseOpponents";
 import { PlayerState } from "../interfaces/components.i";
 import background from "../images/background.jpg";
 import { AppState } from "../store/store";
+import OnlineLobby from "./online-lobby/OnlineLobby";
 
 const Setup: React.FC = (): JSX.Element => {
   const { noPlayers, readyToPlay } = useSelector(
-    ({ player }: AppState): PlayerState => player
+    ({ player }: AppState): PlayerState => player,
   );
 
   return (
@@ -23,6 +24,8 @@ const Setup: React.FC = (): JSX.Element => {
       {!readyToPlay ? (
         noPlayers === undefined ? (
           <ChooseOpponents />
+        ) : noPlayers === 3 ? (
+          <OnlineLobby />
         ) : (
           <ChooseNames />
         )
